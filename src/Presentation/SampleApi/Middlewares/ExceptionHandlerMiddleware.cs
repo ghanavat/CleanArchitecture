@@ -1,0 +1,57 @@
+﻿using CleanArchitecture.Shared.Enums;
+using CleanArchitecture.Shared.ResultMechanism;
+using FluentValidation;
+using Microsoft.AspNetCore.Diagnostics;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using CleanArchitecture.Shared.Extensions;
+
+namespace SampleApi.Middlewares;
+
+/// <summary>
+/// Exception handling middleware
+/// </summary>
+public class ExceptionHandlerMiddleware : IExceptionHandler
+{
+    private readonly ILogger<ExceptionHandlerMiddleware> _logger;
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="logger">Logger dependency</param>
+    public ExceptionHandlerMiddleware(ILogger<ExceptionHandlerMiddleware> logger)
+    {
+        _logger = logger.CheckNotNull();
+    }
+
+    /// <summary>
+    /// Implementation of Handler for handling exceptions
+    /// </summary>
+    /// <param name="httpContext"></param>
+    /// <param name="exception"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Boolean</returns>
+    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+    {
+        /* Handling Validation Exception */
+        if (exception is ValidationException validationException)
+        {
+            httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+            /* This can be an extension method */
+            var errors = validationException.Errors.Select(validationError => new ValidationError
+            {
+                ErrorCode = validationError.ErrorCode,
+                ErrorMessage = validationError.ErrorMessage,
+                ValidationErrorType = (ValidationErrorType)validationError.Severity
+            });
+
+            await httpContext.Response.WriteAsJsonAsync(Result.Invalid(errors), new JsonSerializerOptions
+            {
+                Converters = { new JsonStringEnumConverter(JsonNamingPolicy.KebabCaseLower, false) }
+            }, cancellationToken);
+        };
+
+        return true;
+    }
+}

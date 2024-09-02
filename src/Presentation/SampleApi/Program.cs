@@ -1,0 +1,257 @@
+using Asp.Versioning;
+using CleanArchitecture.Core.Entities;
+using CleanArchitecture.Infrastructure;
+using CleanArchitecture.Infrastructure.Data;
+using CleanArchitecture.Shared.Query;
+using CleanArchitecture.UseCases;
+using CleanArchitecture.UseCases.Feature1.GetSomeDataForSomeId;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using NSwag;
+using NSwag.Generation.AspNetCore;
+using NSwag.Generation.Processors.Security;
+using SampleApi.Middlewares;
+using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using SampleApi.CustomOpenApiProcessors;
+
+const string SampleOriginsName = "_sampleOriginsPolicyName";
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers()
+    .AddJsonOptions(opt => ConfigureJsonSerializers(opt.JsonSerializerOptions));
+
+builder.Services.ConfigureHttpJsonOptions(opt => ConfigureJsonSerializers(opt.SerializerOptions));
+
+builder.Services.AddCors(corsOptions =>
+{
+    /* Add your policies here */
+
+    corsOptions.AddPolicy(SampleOriginsName, policy =>
+    {
+        policy.WithOrigins("https://some.domain.com")
+            .AllowAnyHeader() /* To allow all headers in the CORS requests. */
+            //.WithHeaders(HeaderNames.ContentType, "some-other-header") /* To allow specific header(s) in the CORS requests */
+            .WithMethods("GET", "POST", "PUT"); /* This can be configured with what HTTP Methods we want the CORS policy to be applied for */
+    });
+
+    /* Use this only for default policy configs, if needed */
+    //corsOptions.AddDefaultPolicy(defaultOptions =>
+    //{
+    //});
+});
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+
+// TODO Add validations for Options (AppSettings)
+
+builder.Services.AddHealthChecks().AddCheck<CustomHealthCheckMiddleware>("Name_For_Your_HealthCheck");
+
+builder.Services.AddExceptionHandler<ExceptionHandlerMiddleware>();
+builder.Services.AddProblemDetails();
+
+builder.Services.AddApiVersioning(
+    options =>
+    {
+        options.DefaultApiVersion = new ApiVersion(1, 0);
+        options.ReportApiVersions = true;
+        options.ApiVersionReader = new UrlSegmentApiVersionReader();
+    })
+    .AddApiExplorer(options =>
+    {
+        options.DefaultApiVersion = new ApiVersion(1, 0);
+        options.GroupNameFormat = "'v'VVV";
+        options.SubstituteApiVersionInUrl = true;
+    });
+
+ConfigureMediatR();
+
+builder.Services.AddUseCasesServices();
+builder.Services.AddInfrastructureServices();
+builder.Services.AddMongoDb(builder.Configuration.GetSection("MongoDbSettings"));
+
+/* Authentication is configured as an example to show what it may look like.
+ * Here we used AddJwtBearer (package: 'Microsoft.AspNetCore.Authentication.JwtBearer') scheme to validate the token. 
+ * It is possible to use other schemes, such as Microsoft Identity WebApi (AddMicrosoftIdentityWebApi), 
+ * when Microsoft Identity is used for authentication. -> Require to install 'Microsoft.Identity.Web'  package
+ */
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(jwtOptions =>
+{
+    jwtOptions.Authority = "https://some-authority.com";
+    jwtOptions.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = "TheValidIssuer",
+
+        /* Default is true for this, but in this template we are disabling it.
+         * Setting this flag to false will skip the Audience validation. Some providers don't send 'aud' in Access Token, 
+         * although it can be configured.
+         */
+        ValidateAudience = false,
+
+        ValidateIssuerSigningKey = true,
+        RoleClaimType = "RoleClaimType_UsuallyGroups"
+    };
+});
+
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("SamplePolicy", policy =>
+    {
+        policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+        policy.RequireRole("SampleRole");
+        policy.RequireAuthenticatedUser();
+    });
+
+builder.Services
+    .AddOpenApiDocument(settings =>
+    {
+        CommonApiDocumentGeneratorSettings(settings, "v1");
+
+        settings.PostProcess = document =>
+        {
+            document.Info = ConfigureOpenApiInfo(settings.DocumentName);
+        };
+
+        settings.SchemaSettings.SchemaNameGenerator = new CustomSchemaNameGenerator();
+        settings.SchemaSettings.TypeNameGenerator = new CustomTypeNameGenerator();
+
+        settings.OperationProcessors.Add(new CustomOperationProcessor());
+    })
+    .AddOpenApiDocument(settings =>
+    {
+        CommonApiDocumentGeneratorSettings(settings, "v2");
+   
+        settings.PostProcess = document =>
+        {
+            document.Info = ConfigureOpenApiInfo(settings.DocumentName);            
+        };
+
+        settings.AddSecurity("SecuritySchemeName", new OpenApiSecurityScheme
+        {
+            Type = OpenApiSecuritySchemeType.Http,
+
+            /* Require to install package: 'Microsoft.AspNetCore.Authentication.JwtBearer' */
+            Scheme = JwtBearerDefaults.AuthenticationScheme,
+            BearerFormat = "JWT",
+            Name = "Authorization",
+            Description = "Place your valid JWT Bearer Token into the below Value box."
+        });
+
+        settings.SchemaSettings.SchemaNameGenerator = new CustomSchemaNameGenerator();
+        settings.SchemaSettings.TypeNameGenerator = new CustomTypeNameGenerator();
+
+        settings.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Bearer"));
+        settings.OperationProcessors.Add(new CustomOperationProcessor());
+    })
+    .AddOpenApiDocument(settings =>
+    {
+        CommonApiDocumentGeneratorSettings(settings, "v3");
+
+        settings.PostProcess = document =>
+        {
+            document.Info = ConfigureOpenApiInfo(settings.DocumentName);
+        };
+
+        settings.SchemaSettings.SchemaNameGenerator = new CustomSchemaNameGenerator();
+        settings.SchemaSettings.TypeNameGenerator = new CustomTypeNameGenerator();
+
+        settings.OperationProcessors.Add(new CustomOperationProcessor());
+    });
+
+//TODO Setup Swagger Gen here
+//builder.Services.AddSwaggerGen(options =>
+//{
+//    // This overrides the default operation so they match the controller actions names
+//    options.CustomOperationIds(x =>
+//    {
+//        return x.TryGetMethodInfo(out var methodInfo)
+//        ? methodInfo.Name
+//        : null;
+//    });
+
+//    // To generate allOf for base types in models
+//    //options.UseAllOfForInheritance();
+
+//    // Should we need a bavse response typefor all of our responses, Swashbuckle needs to support inheritance.
+//    //options.SelectSubTypesUsing();
+//});
+
+var app = builder.Build();
+
+/* This is one way to 'enable' CORS. 
+ * If you configured more than one policy, do not pass the 'policyName' argument.
+ * For finer control in limiting endpoints that support CORS, use [EnableCors] attribute on your endpoints.
+ */
+app.UseCors(SampleOriginsName);
+
+// TODO For Strict-Transport-Security header
+app.UseHsts();
+
+//TODO Add GET minimal endpoints for your health check (i.e., /health)
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseOpenApi();
+    app.UseSwaggerUi();
+}
+
+app.UseHttpsRedirection();
+
+app.UseExceptionHandler();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+return;
+
+void ConfigureJsonSerializers(JsonSerializerOptions options)
+{
+    // TODO decide the naming policy
+    options.PropertyNamingPolicy = JsonNamingPolicy.KebabCaseLower;
+    options.WriteIndented = true;
+    options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.KebabCaseLower, false));
+}
+
+void ConfigureMediatR()
+{
+    var mediatRAssemblies = new[]
+      {
+        Assembly.GetAssembly(typeof(SampleEntity)), // Core
+        Assembly.GetAssembly(typeof(GetSomeDataForSomeIdQuery)), // UseCases
+        Assembly.GetAssembly(typeof(SampleDbContext)), // Infrastructure
+        Assembly.GetAssembly(typeof(IQuery<>)) // Shared
+      };
+
+    builder.Services.AddMediatR(cfg =>
+    {
+        cfg.RegisterServicesFromAssemblies(mediatRAssemblies!);
+        //cfg.AddOpenBehavior(typeof(ValidatorBehaviour<,>));
+    });
+}
+
+OpenApiInfo ConfigureOpenApiInfo(string apiVersion)
+{
+    return new OpenApiInfo
+    {
+        Version = apiVersion,
+        Title = "Clean Architecture template",
+        Description = "A template based on Clean Architecture rules. This template aims to show/help developers with setting up a solution based on Clean Architecture rules and guidelines."
+    };
+}
+
+void CommonApiDocumentGeneratorSettings(AspNetCoreOpenApiDocumentGeneratorSettings settings, string version)
+{
+    settings.DocumentName = version;
+    settings.ApiGroupNames = [version];
+    settings.UseHttpAttributeNameAsOperationId = false;
+    settings.UseControllerSummaryAsTagDescription = true;
+    settings.DefaultResponseReferenceTypeNullHandling = NJsonSchema.Generation.ReferenceTypeNullHandling.Null;
+}

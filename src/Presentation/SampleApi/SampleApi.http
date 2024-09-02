@@ -1,0 +1,6 @@
+@SampleApi_HostAddress = http://localhost:5096
+
+GET {{SampleApi_HostAddress}}/Sample/v2.0/example_something_get//
+Accept: application/json
+
+###
