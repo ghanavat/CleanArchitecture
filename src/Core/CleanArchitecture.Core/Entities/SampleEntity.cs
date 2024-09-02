@@ -8,8 +8,7 @@ namespace CleanArchitecture.Core.Entities;
 /// </summary>
 public class SampleEntity : IIdentifiable
 {
-    // This property is like a primary key. Consider EntityBase class for it.
-    public required string Id { get; init; }
+    public string? Id { get; set; }
     public string? FirstName { get; set; }
 
     /// <summary>
