@@ -50,12 +50,6 @@ public class SampleController : ControllerBase
     [MapToApiVersion("2.0")]
     public Task<Result<SampleFilteredWithIdDto>> GetSomethingAsync([FromRoute] string someId) /* We don't have to use IActionResult return type, if only one type is returned. */
     {
-        var opt = new DbContextOptionsBuilder
-        {
-            Options = { Extensions = {  }}
-        };
-        var context = new SampleDbContext(opt.Options);
-        
         var query = new GetSomeDataForSomeIdQuery(someId);
         return _mediator.Send(query);
     }
