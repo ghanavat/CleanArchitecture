@@ -15,8 +15,8 @@ public class CreatePlayerHandler : ICommandHandler<CreatePlayerCommand, Result<s
 
     public CreatePlayerHandler(IRepository<Player> repository, IValidator<CreatePlayerCommand> validator)
     {
-        _repository = repository.CheckNotNull();
-        _validator = validator.CheckNotNull();
+        _repository = repository.CheckForNull();
+        _validator = validator.CheckForNull();
     }
     
     public async Task<Result<string>> Handle(CreatePlayerCommand request, CancellationToken cancellationToken)

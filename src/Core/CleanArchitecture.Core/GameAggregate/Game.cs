@@ -1,3 +1,4 @@
+using CleanArchitecture.Shared;
 using CleanArchitecture.Shared.Extensions;
 
 namespace CleanArchitecture.Core.GameAggregate;
@@ -17,7 +18,7 @@ public class Game : EntityBase
     /// <returns>Void</returns>
     public void AddPlayer(string playerId)
     {
-        PlayerId = playerId.CheckNotNull();
+        PlayerId = playerId.CheckForNull();
         // TODO publish domain event here
     }
 

@@ -2,7 +2,7 @@ using Asp.Versioning;
 using CleanArchitecture.Shared.Extensions;
 using CleanArchitecture.Shared.ResultMechanism;
 using CleanArchitecture.UseCases.Dtos;
-using CleanArchitecture.UseCases.Feature1.GetSomeDataForSomeId;
+using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,9 +46,9 @@ public class SampleController : ControllerBase
     //[ProducesResponseType(typeof(Result<SampleFilteredWithIdDto>), StatusCodes.Status200OK)]
     //[SwaggerResponse(StatusCodes.Status200OK, typeof(Result<SampleFilteredWithIdDto>))]
     [MapToApiVersion("2.0")]
-    public Task<Result<SampleFilteredWithIdDto>> GetSomethingAsync([FromRoute] string someId) /* We don't have to use IActionResult return type, if only one type is returned. */
+    public Task<Result<FilteredPlayerDto>> GetSomethingAsync([FromRoute] string someId) /* We don't have to use IActionResult return type, if only one type is returned. */
     {
-        var query = new GetSomeDataForSomeIdQuery(someId);
+        var query = new GetPlayerByIdQuery(someId);
         return _mediator.Send(query);
     }
 

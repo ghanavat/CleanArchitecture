@@ -6,7 +6,7 @@
 /// I would suggest to use 'record' here as they are immutable
 /// <code>public record FeatureOneDto(int id, string Name, string description);</code>
 /// </summary>
-public class FilteredPlayerDto
+public class SampleFilteredWithIdDto
 {
     public string? Id { get; set; }
     public string? Name { get; set; }

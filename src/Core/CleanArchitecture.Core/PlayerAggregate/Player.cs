@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Core.Interfaces;
+using CleanArchitecture.Shared;
 using CleanArchitecture.Shared.Extensions;
 
 namespace CleanArchitecture.Core.PlayerAggregate;
@@ -14,8 +15,8 @@ public class Player : EntityBase, IAggregateRoot
     
     public Player(string firstName, string lastName)
     {
-        FirstName = firstName.CheckNotNull();
-        LastName = lastName.CheckNotNull();
+        FirstName = firstName.CheckForNull();
+        LastName = lastName.CheckForNull();
     }
 
     /// <summary>
@@ -38,7 +39,7 @@ public class Player : EntityBase, IAggregateRoot
     /// <param name="lastName">lastName of the player</param>
     public void UpdatePlayerDetails(string firstName, string lastName)
     {
-        FirstName = firstName.CheckNotNull();
-        LastName = lastName.CheckNotNull();
+        FirstName = firstName.CheckForNull();
+        LastName = lastName.CheckForNull();
     }
 }
