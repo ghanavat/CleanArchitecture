@@ -1,10 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    
     <Description>This assembly must 'only' be referenced by the 'Presentation' layer for Service Registration purpopses. 
       Any other usage of this assembly is violation of dependency rules defined by Clean Architecture</Description>
   </PropertyGroup>
