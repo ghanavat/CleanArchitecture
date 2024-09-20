@@ -1,16 +1,12 @@
 using Asp.Versioning;
-using CleanArchitecture.Infrastructure.Data;
 using CleanArchitecture.Shared.Extensions;
 using CleanArchitecture.Shared.ResultMechanism;
-using CleanArchitecture.UseCases;
-using CleanArchitecture.UseCases.PlayerFeature.Create;
-using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
+using CleanArchitecture.UseCases.Dtos;
+using CleanArchitecture.UseCases.Feature1.GetSomeDataForSomeId;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using NSwag.Annotations;
-using SampleApi.Controllers.Requests;
 using SampleApi.Requests;
 
 namespace SampleApi.Controllers;
@@ -36,28 +32,23 @@ public class SampleController : ControllerBase
     /// <exception cref="InvalidCastException"></exception>
     public SampleController(IMediator mediator, ILogger<SampleController> logger)
     {
-        _mediator = mediator.CheckNotNull();
-        _logger = logger.CheckNotNull();
+        _mediator = mediator.CheckForNull();
+        _logger = logger.CheckForNull();
     }
 
     /// <summary>
-    /// Sample Get endpoint with 'Authorize' attribute and API Versioning
+    /// Sample Get endpoint.
+    /// It has 'Authorize' attribute and API Versioning.
     /// </summary>
-    /// <returns>Result of SampleFilteredWithIdDto</returns>
+    /// <returns>OK or BadRequest</returns>
     [HttpGet("example_something_get/{someId}")]
-    //[Authorize(Policy = "SamplePolicy", Roles = "SampleRole")]
+    [Authorize(Policy = "SamplePolicy", Roles = "SampleRole")]
     //[ProducesResponseType(typeof(Result<SampleFilteredWithIdDto>), StatusCodes.Status200OK)]
     //[SwaggerResponse(StatusCodes.Status200OK, typeof(Result<SampleFilteredWithIdDto>))]
     [MapToApiVersion("2.0")]
-    public Task<Result<FilteredPlayerDto>> GetSomethingAsync([FromRoute] string someId) /* We don't have to use IActionResult return type, if only one type is returned. */
+    public Task<Result<SampleFilteredWithIdDto>> GetSomethingAsync([FromRoute] string someId) /* We don't have to use IActionResult return type, if only one type is returned. */
     {
-        var opt = new DbContextOptionsBuilder
-        {
-            Options = { Extensions = {  }}
-        };
-        var context = new SampleDbContext(opt.Options);
-        
-        var query = new GetPlayerByIdQuery(someId);
+        var query = new GetSomeDataForSomeIdQuery(someId);
         return _mediator.Send(query);
     }
 
@@ -65,14 +56,14 @@ public class SampleController : ControllerBase
     /// A sample endpoint with POST.
     /// POST is equivalent to CREATE in CRUD.
     /// </summary>
-    /// <returns>String value of the new player Id</returns>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
     [HttpPost("example_something_post/new")]
     [SwaggerResponse(StatusCodes.Status200OK, typeof(Result<>))]
     [MapToApiVersion("3.0")]
-    public Task<Result<string>> CreatePlayerAsync([FromBody] CreatePlayerRequestModel requestModel)
+    public Task<IActionResult> PostSomethingAsync()
     {
-        var command = new CreatePlayerCommand(requestModel.FirstName, requestModel.Lastname);
-        return _mediator.Send(command);
+        throw new NotImplementedException();
     }
 
     /// <summary>

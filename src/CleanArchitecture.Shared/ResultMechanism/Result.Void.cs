@@ -8,19 +8,42 @@ namespace CleanArchitecture.Shared.ResultMechanism;
 /// </summary>
 public class Result : Result<Result>
 {
-    protected Result(ResultStatus status) : base(status)
-    {}
+    /// <summary>
+    /// Default constructor derived from its base
+    /// </summary>
+    public Result() : base() { }
+
+    /// <summary>
+    /// A constructor that accepts <paramref name="status"/>
+    /// </summary>
+    /// <param name="status"></param>
+    protected Result(ResultStatus status) : base(status) { }
+
+    /// <summary>
+    /// Represents a successful operation without return type
+    /// </summary>
+    /// <returns>A Success Result</returns>
+    public static Result Success() => new();
 
     /// <summary>
     /// Represents invalid result with validation errors.
     /// </summary>
     /// <param name="validationErrors"></param>
-    /// <returns></returns>
-    public new static Result Invalid(IEnumerable<ValidationError> validationErrors) 
-    {  
+    /// <returns>An Invalid Result</returns>
+    public new static Result Invalid(IEnumerable<ValidationError> validationErrors)
+    {
         return new Result(ResultStatus.Invalid)
         {
             ValidationErrors = validationErrors
-        }; 
+        };
     }
+
+    /// <summary>
+    /// Represents error result with error message
+    /// </summary>
+    /// <returns>An Error Result</returns>
+    public new static Result Error(string errorMessage) => new(ResultStatus.Error)
+    {
+        ErrorMessages = [errorMessage]
+    };
 }

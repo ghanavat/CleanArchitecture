@@ -4,6 +4,7 @@ using CleanArchitecture.Shared.Enums;
 using CleanArchitecture.Shared.Extensions;
 using CleanArchitecture.Shared.Query;
 using CleanArchitecture.Shared.ResultMechanism;
+using CleanArchitecture.UseCases.Dtos;
 using FluentValidation;
 
 namespace CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
@@ -15,8 +16,8 @@ public class GetPlayerByIdHandler : IQueryHandler<GetPlayerByIdQuery, Result<Fil
 
     public GetPlayerByIdHandler(IRepository<Player> repository, IValidator<GetPlayerByIdQuery> validator)
     {
-        _repository = repository.CheckNotNull();
-        _validator = validator.CheckNotNull();
+        _repository = repository.CheckForNull();
+        _validator = validator.CheckForNull();
     }
 
     public async Task<Result<FilteredPlayerDto>> Handle(GetPlayerByIdQuery request, CancellationToken cancellationToken)

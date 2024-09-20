@@ -16,7 +16,7 @@ public class ValidatorBehaviour<TRequest, TResponse>
 
     public ValidatorBehaviour(IEnumerable<IValidator<TRequest>> validators)
     {
-        _validators = validators.CheckNotNull();
+        _validators = validators.CheckForNull();
     }
 
     /// <summary>

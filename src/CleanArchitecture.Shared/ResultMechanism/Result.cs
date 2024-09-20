@@ -1,28 +1,61 @@
-﻿using System.Text.Json.Serialization;
-using CleanArchitecture.Shared.Enums;
+﻿using CleanArchitecture.Shared.Enums;
+using System.Text.Json.Serialization;
 
 namespace CleanArchitecture.Shared.ResultMechanism;
 
+/// <summary>
+/// Result class.
+/// </summary>
+/// <remarks>
+/// Use this when you want to return a result from an implementation.
+/// </remarks>
+/// <typeparam name="T"></typeparam>
 public class Result<T>
 {
+    /// <summary>
+    /// Default protected construtor.
+    /// </summary>
+    /// <remarks>
+    /// It is used in Result.Void to return an instance of Success status without needing to pass any extra types.
+    /// </remarks>
+    protected Result() { }
+
+    /// <summary>
+    /// A constructor that accepts <paramref name="data"/>
+    /// </summary>
+    /// <param name="data">Constructor parameter of type <paramref name="data"/></param>
     protected Result(T data)
     {
         Data = data;
     }
 
+    /// <summary>
+    /// A constructor that accepts <paramref name="data"/>
+    /// </summary>
+    /// <param name="data">Constructor parameter of type <paramref name="data"/></param>
+    /// <param name="successMessage">Constructor parameter of type <paramref name="successMessage"/></param>
     protected Result(T data, string successMessage) : this(data)
     {
         SuccessMessage = successMessage;
     }
 
+    /// <summary>
+    /// A constructor that accepts <paramref name="status"/>
+    /// </summary>
+    /// <param name="status">Constructor parameter of type <paramref name="status"/></param>
     protected Result(ResultStatus status)
     {
         Status = status;
     }
 
-    [JsonIgnore]
-    public bool IsSuccess => Status is ResultStatus.Ok;
 
+    // TODO Do I need this?
+    //[JsonIgnore]
+    //public bool IsSuccess => Status is ResultStatus.OK;
+
+    /// <summary>
+    /// Data property of type <typeparamref name="T"/> which holds the details of the result as a Json field.
+    /// </summary>
     [JsonInclude]
     public T? Data { get; set; }
 
@@ -41,7 +74,7 @@ public class Result<T>
     /// <summary>
     /// Set is protected and accessible by derived classes
     /// </summary>
-    [JsonInclude]    
+    [JsonInclude]
     public IEnumerable<ValidationError> ValidationErrors { get; protected set; } = [];
 
     /// <summary>
@@ -57,7 +90,7 @@ public class Result<T>
     /// <returns>A Result object of <typeparamref name="T"/> </returns>
     public static Result<T> Success(T data)
     {
-        /* Default status is OK */
+        /* Default status is OK here */
         return new Result<T>(data);
     }
 
@@ -96,21 +129,31 @@ public class Result<T>
     /// Represents invalid result with validation errors
     /// </summary>
     /// <param name="validationErrors">A list of validation errors</param>
-    /// <returns>A Result object of <paramref name="T"/></returns>
+    /// <returns>A Result object of <typeparamref name="T"/></returns>
     public static Result<T> Invalid(IEnumerable<ValidationError> validationErrors)
     {
         return new Result<T>(ResultStatus.Invalid) { ValidationErrors = validationErrors };
     }
 
     /// <summary>
-    /// An operator to automatically convert the return type within a method to the type being returned
+    /// An operator to automatically convert the return type in a method to the type being returned
     /// </summary>
     /// <param name="data">The return data</param>
-    public static implicit operator Result<T>(T? data) => new(data!);
+    public static implicit operator Result<T>(T data) => new(data);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="result"></param>
     public static implicit operator T(Result<T> result) => result.Data!;
+
+    /// <summary>
+    /// An operator to automatically convert the return type in a method to the default state
+    /// </summary>
+    /// <param name="result"></param>
     public static implicit operator Result<T>(Result result) => new(default(T)!)
     {
-        Status =  result.Status,
+        Status = result.Status,
         ErrorMessages = result.ErrorMessages,
         SuccessMessage = result.SuccessMessage,
         ValidationErrors = result.ValidationErrors

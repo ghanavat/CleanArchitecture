@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Shared.Query;
 using CleanArchitecture.Shared.ResultMechanism;
+using CleanArchitecture.UseCases.Dtos;
 
 namespace CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 

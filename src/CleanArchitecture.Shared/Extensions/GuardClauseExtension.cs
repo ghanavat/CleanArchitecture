@@ -3,35 +3,40 @@
 namespace CleanArchitecture.Shared.Extensions;
 
 /// <summary>
-/// Implementation of extension as guard clause
+/// Guard clause extension.
 /// </summary>
-/// <example>
-/// someObject.CheckForNull();
-/// someObject.CheckForNull("My custom exception message");
-/// mediator.CheckNotNull(null, () => { throw new Exception("exception message"); });
-/// </example>
 public static class GuardClauseExtension
 {
+    private const string StandardArgumentNullMessage = "Argument cannot be null or empty.";
+
     /// <summary>
-    /// An extension method to guard against null.
+    /// An extension method to guard against null for class objects.
     /// </summary>
     /// <typeparam name="T">The object the null check is done against.</typeparam>
-    /// <param name="objectToCheck"></param>
-    /// <param name="customMessage">Optional. Custom exception message.</param>
+    /// <param name="input">The generic object that is being checked for its state.</param>
     /// <param name="customException">Optional. A function to create custome exception.</param>
-    /// <returns> <paramref name="objectToCheck" /> if its value is not null.</returns>
-    public static T CheckNotNull<T>([NotNull] this T? objectToCheck,
-        string? customMessage = null,
-        Func<Exception>? customException = null)
+    /// <returns><paramref name="input" /> if the value is not null.</returns>
+    /// <example>
+    /// <code>
+    /// someObject.CheckForNull();
+    /// someObject.CheckForNull(() => { throw new MyCustomException("custom exception message"); });
+    /// </code>
+    /// </example>
+    public static T CheckForNull<T>([NotNull] this T? input,
+        Func<Exception>? customException = null) where T : class
     {
-        if (objectToCheck is not null) return objectToCheck;
-        
-        var exception = customException?.Invoke();
+        Exception? exception = customException?.Invoke();
 
-        if (string.IsNullOrEmpty(customMessage))
+        if (input!.GetType().Name.Equals(nameof(String))
+            && string.IsNullOrEmpty(input.ToString()))
         {
-            throw exception ?? new ArgumentNullException(nameof(objectToCheck));
+            throw exception ?? new ArgumentNullException(nameof(input), StandardArgumentNullMessage);
         }
-        throw exception ?? new ArgumentNullException(nameof(customMessage), customMessage);
+        else if (input is null)
+        {
+            throw exception ?? new ArgumentNullException(nameof(input), StandardArgumentNullMessage);
+        }
+
+        return input;
     }
 }
