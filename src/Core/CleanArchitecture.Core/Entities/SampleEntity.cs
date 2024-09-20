@@ -1,4 +1,7 @@
 ﻿using CleanArchitecture.Core.Interfaces;
+using CleanArchitecture.Shared;
+using CleanArchitecture.Shared.Enums;
+using CleanArchitecture.Template.Shared.Attributes;
 
 namespace CleanArchitecture.Core.Entities;
 
@@ -6,22 +9,27 @@ namespace CleanArchitecture.Core.Entities;
 /// A sample Entity class.
 /// This is where you put the business rules. Things like add new item or update/delete.
 /// </summary>
-public class SampleEntity : IIdentifiable
+public class SampleEntity : EntityBase, IAggregateRoot
 {
-    public string? Id { get; set; }
-    public string? FirstName { get; set; }
+    public SampleEntity() { }
 
-    /// <summary>
-    /// Bad idea
-    /// </summary>
-    public void AddSampleEntityItem()
+    private SampleEntity(string id, string firstName, string lastName)
     {
-        /* 
-         * For documentation/intention purposes: 
-         * This is not supposed to be here. 
-         * When an entity needs to be populated for the first time, it is not a domain operation. 
-         * Instead, it needs to be dealt with at the application layer.
-        */
+        Id = id;
+        FirstName = firstName;
+        LastName = lastName;
+    }
+
+    public string? FirstName { get; set; }
+    public string? LastName { get; private set; }
+
+    [FactoryMethod(FactoryMethodFor.SampleEntity)]
+    public SampleEntity AddSampleEntityItem(string id, string firstName, string lastName)
+    {
+        var sampleEntity = new SampleEntity(id, firstName, lastName);
+        // Construct any value object or FK references and other aggregates if necessary
+
+        return sampleEntity;
     }
 
     public void UpdateName(string name)

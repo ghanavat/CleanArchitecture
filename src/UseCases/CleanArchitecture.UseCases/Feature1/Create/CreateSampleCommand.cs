@@ -1,5 +1,6 @@
-﻿namespace CleanArchitecture.UseCases.Feature1.Create;
+﻿using CleanArchitecture.Shared.Command;
+using CleanArchitecture.Shared.ResultMechanism;
 
-internal class CreateSampleCommand
-{
-}
+namespace CleanArchitecture.UseCases.Feature1.Create;
+
+public record CreateSampleCommand(string FirstName, string LastName) : ICommand<Result<bool>>;

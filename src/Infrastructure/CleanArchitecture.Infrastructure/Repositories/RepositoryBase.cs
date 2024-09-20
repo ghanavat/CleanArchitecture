@@ -15,7 +15,8 @@ using CleanArchitecture.Infrastructure.Data;
 namespace CleanArchitecture.Infrastructure.Repositories;
 
 /// <inheritdoc/>
-public abstract class RepositoryBase<T> : IRepository<T> where T : class, IIdentifiable
+public abstract class RepositoryBase<T> : IRepository<T> 
+    where T : EntityBase, IAggregateRoot
 {
     //private readonly IMongoClient _client;
     //private readonly IMongoDatabase _dbContext;
@@ -29,7 +30,7 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : class, IIdent
 
         //_dbContext = dbContext.CheckNotNull(); //_client.GetDatabase("employer");
         //_collectionName = collectionName.CheckNotNull();
-        _efDbContext = efDbContext.CheckNotNull();
+        _efDbContext = efDbContext.CheckForNull();
     }
 
     public virtual Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)

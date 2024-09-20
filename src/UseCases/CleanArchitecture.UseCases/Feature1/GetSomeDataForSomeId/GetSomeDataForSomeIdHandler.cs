@@ -4,6 +4,7 @@ using CleanArchitecture.Shared.Enums;
 using CleanArchitecture.Shared.Extensions;
 using CleanArchitecture.Shared.Query;
 using CleanArchitecture.Shared.ResultMechanism;
+using CleanArchitecture.UseCases.Dtos;
 using FluentValidation;
 
 namespace CleanArchitecture.UseCases.Feature1.GetSomeDataForSomeId;
@@ -15,8 +16,8 @@ public class GetSomeDataForSomeIdHandler : IQueryHandler<GetSomeDataForSomeIdQue
 
     public GetSomeDataForSomeIdHandler(IRepository<SampleEntity> repository, IValidator<GetSomeDataForSomeIdQuery> validator)
     {
-        _repository = repository.CheckNotNull();
-        _validator = validator.CheckNotNull();
+        _repository = repository.CheckForNull();
+        _validator = validator.CheckForNull();
     }
 
     public async Task<Result<SampleFilteredWithIdDto>> Handle(GetSomeDataForSomeIdQuery request, CancellationToken cancellationToken)

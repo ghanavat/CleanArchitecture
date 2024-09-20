@@ -21,7 +21,7 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
     /// <param name="logger">Logger dependency</param>
     public ExceptionHandlerMiddleware(ILogger<ExceptionHandlerMiddleware> logger)
     {
-        _logger = logger.CheckNotNull();
+        _logger = logger.CheckForNull();
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.UseCases;
+﻿namespace CleanArchitecture.UseCases.Dtos;
 
 /// <summary>
 /// A sample DTO object.

@@ -1,13 +1,11 @@
 using Asp.Versioning;
-using CleanArchitecture.Infrastructure.Data;
 using CleanArchitecture.Shared.Extensions;
 using CleanArchitecture.Shared.ResultMechanism;
-using CleanArchitecture.UseCases;
+using CleanArchitecture.UseCases.Dtos;
 using CleanArchitecture.UseCases.Feature1.GetSomeDataForSomeId;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using NSwag.Annotations;
 using SampleApi.Requests;
 
@@ -34,8 +32,8 @@ public class SampleController : ControllerBase
     /// <exception cref="InvalidCastException"></exception>
     public SampleController(IMediator mediator, ILogger<SampleController> logger)
     {
-        _mediator = mediator.CheckNotNull();
-        _logger = logger.CheckNotNull();
+        _mediator = mediator.CheckForNull();
+        _logger = logger.CheckForNull();
     }
 
     /// <summary>
