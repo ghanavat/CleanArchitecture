@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using CleanArchitecture.Shared;
 
 namespace CleanArchitecture.Core.Interfaces;
 
@@ -6,8 +7,8 @@ namespace CleanArchitecture.Core.Interfaces;
 /// A base abstraction for read only operations.
 /// Don't use this interface directly for custom repositories.
 /// </summary>
-/// <typeparam name="T">An entity to which the repository operations will be written agains</typeparam>
-public interface IReadRepository<T> where T : class
+/// <typeparam name="T">An entity to which the repository operations will be written against</typeparam>
+public interface IReadRepository<T> where T : EntityBase, IAggregateRoot
 {
     /// <summary>
     /// Finds an entity with the given id (typically is a primary key.

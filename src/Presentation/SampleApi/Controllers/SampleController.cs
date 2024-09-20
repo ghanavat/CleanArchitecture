@@ -99,7 +99,7 @@ public class SampleController : ControllerBase
 
     /// <summary>
     /// A sample endpoint with DELETE.
-    /// It is used to delete an specified resource.
+    /// It is used to delete a specified resource.
     /// </summary>
     /// <param name="someId"></param>
     /// <returns></returns>

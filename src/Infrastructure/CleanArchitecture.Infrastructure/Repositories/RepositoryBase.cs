@@ -23,7 +23,10 @@ public abstract class RepositoryBase<T> : IRepository<T>
     private readonly SampleDbContext _efDbContext;
     //private readonly string _collectionName;
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Repository Base constructor
+    /// </summary>
+    /// <param name="efDbContext">EF DB Context dependency</param>
     protected RepositoryBase(SampleDbContext efDbContext) //string collectionName
     {
         // Inject your DbContext here
@@ -33,16 +36,19 @@ public abstract class RepositoryBase<T> : IRepository<T>
         _efDbContext = efDbContext.CheckForNull();
     }
 
+    /// <inheritdoc/>
     public virtual Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
+    /// <inheritdoc/>
     public virtual Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
+    /// <inheritdoc/>
     public virtual Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
@@ -53,6 +59,7 @@ public abstract class RepositoryBase<T> : IRepository<T>
     //    throw new NotImplementedException();
     //}
 
+    /// <inheritdoc/>
     public virtual async Task<T?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default)
         where TId : notnull
     {
@@ -67,11 +74,13 @@ public abstract class RepositoryBase<T> : IRepository<T>
         return result;
     }
 
+    /// <inheritdoc/>
     public virtual Task<List<T>> ListAsync(CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
+    /// <inheritdoc/>
     public virtual Task<List<T>> ListAsync(Expression<Func<T, bool>> predicate,
         CancellationToken cancellationToken = default)
     {

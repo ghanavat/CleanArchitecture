@@ -1,4 +1,4 @@
-namespace SampleApi.Controllers.Requests;
+namespace SampleApi.Requests;
 
 /// <summary>
 /// Create new player request model

@@ -8,6 +8,9 @@ namespace CleanArchitecture.Infrastructure.Helpers;
 /// </summary>
 public class CustomIdentityConverter : ValueConverter<string?, ObjectId>
 {
+    /// <summary>
+    /// Custom converter constructor
+    /// </summary>
     public CustomIdentityConverter() 
         : base(value => ObjectId.Parse(value), 
               value => value.ToString())

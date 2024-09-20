@@ -42,10 +42,10 @@ internal class CreateEntityObjectFactory<TRequest, TResponse>
 
         #endregion
 
-        var method = typeof(TResponse).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-            .Where(x => x.GetCustomAttribute<FactoryMethodAttribute>() is not null
-                && x.GetCustomAttribute<FactoryMethodAttribute>()?.FactoryMethodName.ToString() == typeof(TResponse).Name)
-            .FirstOrDefault();
+        var method = typeof(TResponse)
+            .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+            .FirstOrDefault(x => x.GetCustomAttribute<FactoryMethodAttribute>() is not null
+                                 && x.GetCustomAttribute<FactoryMethodAttribute>()?.FactoryMethodName.ToString() == typeof(TResponse).Name);
 
         if (method is null)
         {
@@ -65,20 +65,15 @@ internal class CreateEntityObjectFactory<TRequest, TResponse>
         }
         else if (baseType.Equals(typeof(EntityBase)))
         {
-
+            
         }
 
         var requestProperties = typeof(TRequest).GetProperties();
 
-        var constructorIntance = constructorInfo.Invoke(null);
-        var entityObject = method.Invoke(constructorIntance, PopulateProperyValues(requestProperties, instance));
+        var constructorInstance = constructorInfo.Invoke(null);
+        var entityObject = method.Invoke(constructorInstance, PopulatePropertyValues(requestProperties.ToList(), instance));
 
         return (TResponse?)entityObject;
-    }
-
-    public Task DeleteAsync(TRequest instance)
-    {
-        throw new NotImplementedException();
     }
 
     //private static Type[] PopulateTypeObjectsForProperties(PropertyInfo[] properties)
@@ -95,19 +90,17 @@ internal class CreateEntityObjectFactory<TRequest, TResponse>
     /// <summary>
     /// Populates an array of property values in order from the request command
     /// </summary>
-    /// <param name="properties">Array of properties as PropertyInfo</param>
-    /// <param name="sourceType">The source type whose propety values will be returned</param>
+    /// <param name="properties">List of properties as PropertyInfo</param>
+    /// <param name="sourceType">The source type whose property values will be returned</param>
     /// <returns>An object array of property values</returns>
-    private static object[] PopulateProperyValues(IEnumerable<PropertyInfo> properties, TRequest sourceType)
+    private static object[] PopulatePropertyValues(IList<PropertyInfo> properties, TRequest sourceType)
     {
-        var listProps = properties.ToList();
-
-        object[] objValues = new object[properties.Count()];
-        for (int i = 0; i < objValues.Length; i++)
+        var objValues = new object[properties.Count];
+        for (var i = 0; i < properties.Count; i++)
         {
-            objValues[i] = listProps[i].GetValue(sourceType)!;
+            objValues[i] = properties[i].GetValue(sourceType)!;
 
-            CheckInvariants(listProps[i].Name, objValues[i].ToString());
+            CheckInvariants(properties[i].Name, objValues[i].ToString());
         }
 
         return objValues;
@@ -115,10 +108,7 @@ internal class CreateEntityObjectFactory<TRequest, TResponse>
 
     private static void CheckInvariants(string? propertyName, string? propertyValue)
     {
-        propertyName.CheckForNull(() =>
-        {
-            throw new ArgumentException("The property name passed in for invariant check is invalid.", nameof(propertyName));
-        });
+        propertyName.CheckForNull(() => throw new ArgumentException("The property name passed in for invariant check is invalid.", nameof(propertyName)));
         propertyValue.CheckForNull();
     }
 }

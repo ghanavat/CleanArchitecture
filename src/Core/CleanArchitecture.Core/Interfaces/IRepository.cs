@@ -1,4 +1,6 @@
-﻿namespace CleanArchitecture.Core.Interfaces;
+﻿using CleanArchitecture.Shared;
+
+namespace CleanArchitecture.Core.Interfaces;
 
 /// <summary>
 /// A base abstraction for mutable operations
@@ -7,7 +9,7 @@
 /// </see>
 /// </summary>
 /// <typeparam name="T">An entity to which the repository operations will be written for.</typeparam>
-public interface IRepository<T> : IReadRepository<T> where T : class
+public interface IRepository<T> : IReadRepository<T> where T : EntityBase, IAggregateRoot
 {
     /// <summary>
     /// To persist/add a new entity to the DB

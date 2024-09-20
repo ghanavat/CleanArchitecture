@@ -10,7 +10,7 @@ namespace CleanArchitecture.Core.Interfaces;
 /// </remarks>
 /// <typeparam name="TRequest">A mediatr command as IRequest</typeparam>
 /// <typeparam name="TResponse">An aggregate root object.</typeparam>
-public interface IDomainFactory<in TRequest, TResponse>
+public interface IDomainFactory<in TRequest, out TResponse>
     where TRequest : class
     where TResponse : EntityBase, IAggregateRoot
 {
