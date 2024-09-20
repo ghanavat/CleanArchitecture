@@ -12,7 +12,7 @@ namespace CleanArchitecture.Infrastructure.Data;
 [TypeUsageWarning(typeof(SampleDbContext))]
 public sealed class SampleDbContext : DbContext
 {
-    public DbSet<Player> UserPolicies => Set<Player>();
+    public DbSet<Player> Players => Set<Player>();
 
     public SampleDbContext(DbContextOptions options) : base(options)
     {}

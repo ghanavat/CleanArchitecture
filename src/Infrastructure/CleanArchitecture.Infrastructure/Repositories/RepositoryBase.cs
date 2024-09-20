@@ -31,7 +31,7 @@ public abstract class RepositoryBase<T> : IRepository<T>
     {
         // Inject your DbContext here
 
-        //_dbContext = dbContext.CheckNotNull(); //_client.GetDatabase("employer");
+        //_dbContext = dbContext.CheckNotNull(); //_client.GetDatabase("databaseName");
         //_collectionName = collectionName.CheckNotNull();
         _efDbContext = efDbContext.CheckForNull();
     }
