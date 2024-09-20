@@ -30,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApi", "src\Presentation\SampleApi\SampleApi.csproj", "{F4B23BD3-20A1-46D2-A7A3-977F0A14FC1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApi.Tests", "SampleApi.Tests\SampleApi.Tests.csproj", "{D2A9E79C-CDA7-43C7-B143-B245866136FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApi.Tests", "tests\SampleApi.Tests\SampleApi.Tests.csproj", "{D2A9E79C-CDA7-43C7-B143-B245866136FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

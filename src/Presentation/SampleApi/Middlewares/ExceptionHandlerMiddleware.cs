@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using CleanArchitecture.Shared.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SampleApi.Middlewares;
 
@@ -51,6 +52,15 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
                 Converters = { new JsonStringEnumConverter(JsonNamingPolicy.KebabCaseLower, false) }
             }, cancellationToken);
         };
+
+        await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
+        {
+            Status = StatusCodes.Status500InternalServerError,
+            Title = "Server responded with error",
+            Instance = httpContext.Request.Path,
+            Detail = $"There has been a problem with your request. {exception.Message}",
+            Type = exception.GetType().Name
+        }, cancellationToken: cancellationToken);
 
         return true;
     }

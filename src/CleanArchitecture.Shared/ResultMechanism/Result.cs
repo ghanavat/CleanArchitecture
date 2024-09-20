@@ -1,11 +1,8 @@
-﻿using NJsonSchema.Converters;
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using CleanArchitecture.Shared.Enums;
 
 namespace CleanArchitecture.Shared.ResultMechanism;
 
-//[JsonConverter(typeof(JsonInheritanceConverterAttribute))]
 public class Result<T>
 {
     protected Result(T data)
@@ -109,7 +106,7 @@ public class Result<T>
     /// An operator to automatically convert the return type within a method to the type being returned
     /// </summary>
     /// <param name="data">The return data</param>
-    public static implicit operator Result<T>(T data) => new(data);
+    public static implicit operator Result<T>(T? data) => new(data!);
     public static implicit operator T(Result<T> result) => result.Data!;
     public static implicit operator Result<T>(Result result) => new(default(T)!)
     {

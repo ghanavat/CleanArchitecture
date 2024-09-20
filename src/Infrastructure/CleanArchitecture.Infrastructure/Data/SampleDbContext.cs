@@ -1,30 +1,29 @@
-﻿using CleanArchitecture.Core.Entities;
+﻿using CleanArchitecture.Core.PlayerAggregate;
 using CleanArchitecture.Infrastructure.Helpers;
 using CleanArchitecture.Shared.Attributes;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Bson;
 using MongoDB.EntityFrameworkCore.Extensions;
 
 namespace CleanArchitecture.Infrastructure.Data;
 
 /// <summary>
-/// DB Context. All configurations related to the Entities done here.
+/// DB Context. All configurations related to the Entities are done here.
 /// </summary>
-public class SampleDbContext : DbContext
+[TypeUsageWarning(typeof(SampleDbContext))]
+public sealed class SampleDbContext : DbContext
 {
-    public DbSet<SampleEntity> UserPolicies => Set<SampleEntity>();
+    public DbSet<Player> UserPolicies => Set<Player>();
 
     public SampleDbContext(DbContextOptions options) : base(options)
-    {
-        options.ContextType.ToBson();
-    }
+    {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {        
-        modelBuilder.Entity<SampleEntity>(entity =>
+        modelBuilder.Entity<Player>(entity =>
         {
-            entity.Property(p => p.Id).HasConversion(new CustomObjectIdConverter());
+            entity.Property(p => p.Id).HasConversion(new CustomIdentityConverter());
             entity.Property(p => p.FirstName).HasElementName("firstName");
+            entity.Property(p => p.LastName).HasElementName("lastName");
 
             entity.ToCollection("PlayTime");
         });

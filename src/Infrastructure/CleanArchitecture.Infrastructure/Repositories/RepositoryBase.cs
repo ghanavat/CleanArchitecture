@@ -1,5 +1,4 @@
-﻿using CleanArchitecture.Core.Entities;
-using CleanArchitecture.Core.Interfaces;
+﻿using CleanArchitecture.Core.Interfaces;
 using CleanArchitecture.Shared;
 using CleanArchitecture.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -10,12 +9,13 @@ using MongoDB.Driver.Linq;
 using MongoDB.EntityFrameworkCore.Storage.ValueConversion;
 using System.Linq.Expressions;
 using System.Text;
+using CleanArchitecture.Core;
 using CleanArchitecture.Infrastructure.Data;
 
 namespace CleanArchitecture.Infrastructure.Repositories;
 
 /// <inheritdoc/>
-public abstract class RepositoryBase<T> : IRepository<T> where T : class, IIdentifiable
+public abstract class RepositoryBase<T> : IRepository<T> where T : class, IAggregateRoot
 {
     //private readonly IMongoClient _client;
     //private readonly IMongoDatabase _dbContext;
@@ -32,9 +32,12 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : class, IIdent
         _efDbContext = efDbContext.CheckNotNull();
     }
 
-    public virtual Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
+    public virtual async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        _efDbContext.Set<T>().Add(entity);
+        await _efDbContext.SaveChangesAsync(cancellationToken);
+
+        return entity;
     }
 
     public virtual Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
@@ -46,11 +49,6 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : class, IIdent
     {
         throw new NotImplementedException();
     }
-
-    //public Task<T?> FirstOrDefaultAsync(ISpecification<T> specification, CancellationToken cancellationToken = default)
-    //{
-    //    throw new NotImplementedException();
-    //}
 
     public virtual async Task<T?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default)
         where TId : notnull

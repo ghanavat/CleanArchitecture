@@ -1,10 +1,8 @@
 using Asp.Versioning;
-using CleanArchitecture.Core.Entities;
 using CleanArchitecture.Infrastructure;
 using CleanArchitecture.Infrastructure.Data;
 using CleanArchitecture.Shared.Query;
 using CleanArchitecture.UseCases;
-using CleanArchitecture.UseCases.Feature1.GetSomeDataForSomeId;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using NSwag;
@@ -14,6 +12,8 @@ using SampleApi.Middlewares;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using CleanArchitecture.Core.PlayerAggregate;
+using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 using SampleApi.CustomOpenApiProcessors;
 
 const string SampleOriginsName = "_sampleOriginsPolicyName";
@@ -202,6 +202,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseStatusCodePages();
 app.UseExceptionHandler();
 
 app.UseAuthentication();
@@ -224,8 +225,8 @@ void ConfigureMediatR()
 {
     var mediatRAssemblies = new[]
       {
-        Assembly.GetAssembly(typeof(SampleEntity)), // Core
-        Assembly.GetAssembly(typeof(GetSomeDataForSomeIdQuery)), // UseCases
+        Assembly.GetAssembly(typeof(Player)), // Core
+        Assembly.GetAssembly(typeof(GetPlayerByIdQuery)), // UseCases
         Assembly.GetAssembly(typeof(SampleDbContext)), // Infrastructure
         Assembly.GetAssembly(typeof(IQuery<>)) // Shared
       };

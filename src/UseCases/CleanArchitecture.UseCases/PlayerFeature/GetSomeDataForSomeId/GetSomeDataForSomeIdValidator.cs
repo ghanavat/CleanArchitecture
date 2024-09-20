@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 
-namespace CleanArchitecture.UseCases.Feature1.GetSomeDataForSomeId;
+namespace CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 
 /// <summary>
 /// Query validator
 /// </summary>
-public class GetSomeDataForSomeIdValidator : AbstractValidator<GetSomeDataForSomeIdQuery>
+public class GetSomeDataForSomeIdValidator : AbstractValidator<GetPlayerByIdQuery>
 {
 	// Suggesting to use 'Severity' for scenarios where validation issues should not prevent the operation to be completed
 

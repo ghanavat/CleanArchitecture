@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using CleanArchitecture.Core.Entities;
 using CleanArchitecture.Core.Interfaces;
 using CleanArchitecture.Infrastructure.Data;
 using CleanArchitecture.Infrastructure.Helpers;

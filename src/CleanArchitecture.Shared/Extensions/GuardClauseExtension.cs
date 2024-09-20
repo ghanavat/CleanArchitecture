@@ -7,7 +7,7 @@ namespace CleanArchitecture.Shared.Extensions;
 /// </summary>
 /// <example>
 /// someObject.CheckForNull();
-/// someobject.CheckforNull("My custom exception message");
+/// someObject.CheckForNull("My custom exception message");
 /// mediator.CheckNotNull(null, () => { throw new Exception("exception message"); });
 /// </example>
 public static class GuardClauseExtension
@@ -33,6 +33,5 @@ public static class GuardClauseExtension
             throw exception ?? new ArgumentNullException(nameof(objectToCheck));
         }
         throw exception ?? new ArgumentNullException(nameof(customMessage), customMessage);
-
     }
 }

@@ -1,25 +1,25 @@
-﻿using CleanArchitecture.Core.Entities;
-using CleanArchitecture.Core.Interfaces;
+﻿using CleanArchitecture.Core.Interfaces;
+using CleanArchitecture.Core.PlayerAggregate;
 using CleanArchitecture.Shared.Enums;
 using CleanArchitecture.Shared.Extensions;
 using CleanArchitecture.Shared.Query;
 using CleanArchitecture.Shared.ResultMechanism;
 using FluentValidation;
 
-namespace CleanArchitecture.UseCases.Feature1.GetSomeDataForSomeId;
+namespace CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 
-public class GetSomeDataForSomeIdHandler : IQueryHandler<GetSomeDataForSomeIdQuery, Result<SampleFilteredWithIdDto>>
+public class GetPlayerByIdHandler : IQueryHandler<GetPlayerByIdQuery, Result<FilteredPlayerDto>>
 {
-    private readonly IRepository<SampleEntity> _repository;
-    private readonly IValidator<GetSomeDataForSomeIdQuery> _validator;
+    private readonly IRepository<Player> _repository;
+    private readonly IValidator<GetPlayerByIdQuery> _validator;
 
-    public GetSomeDataForSomeIdHandler(IRepository<SampleEntity> repository, IValidator<GetSomeDataForSomeIdQuery> validator)
+    public GetPlayerByIdHandler(IRepository<Player> repository, IValidator<GetPlayerByIdQuery> validator)
     {
         _repository = repository.CheckNotNull();
         _validator = validator.CheckNotNull();
     }
 
-    public async Task<Result<SampleFilteredWithIdDto>> Handle(GetSomeDataForSomeIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<FilteredPlayerDto>> Handle(GetPlayerByIdQuery request, CancellationToken cancellationToken)
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
@@ -35,13 +35,12 @@ public class GetSomeDataForSomeIdHandler : IQueryHandler<GetSomeDataForSomeIdQue
         
         var result = await _repository.GetByIdAsync(request.SomeId, cancellationToken);
 
-        if (result == null) { return Result<SampleFilteredWithIdDto>.Error("Sample error message."); }
+        if (result == null) { return Result<FilteredPlayerDto>.Error("Sample error message."); }
 
-        return new SampleFilteredWithIdDto
+        return new FilteredPlayerDto
         {
             Id = result.Id,
-            Name = result.FirstName,
-            Description = result.FirstName
+            Name = $"{result.FirstName} {result.LastName}"
         };
     }
 }

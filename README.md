@@ -5,9 +5,9 @@ A Clean Architecture approach to design better APIs.
 ![Clean Architecture layers!](/CleanArchitecture.jpg "Clean Architecture")
 
 ## Overview
-This is a template solution. In a nutshell, it's intended to be a correct/proper (I'll try!) reference for new projects :)
+This is a sample application solution designed with Clean Architecture rules. In a nutshell, it's intended to be a correct/proper (I'll try!) reference for new projects :)
 
-> Note: In Clean Architecture, the dependency rule says that projects must point inwards. all layers referenced inwards to the **Domain** layer.
+In Clean Architecture, the dependency rule says that projects must point inwards. All layers referenced inwards to the **Domain** layer.
 
 ## The image above
 I decided to put this image to remind ourselves what Clean Architecture looks like in theory.
