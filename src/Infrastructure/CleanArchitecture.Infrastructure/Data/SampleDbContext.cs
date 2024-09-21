@@ -1,6 +1,5 @@
 ﻿using CleanArchitecture.Core.PlayerAggregate;
 using CleanArchitecture.Infrastructure.Helpers;
-using CleanArchitecture.Shared.Attributes;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.EntityFrameworkCore.Extensions;
 
@@ -9,7 +8,6 @@ namespace CleanArchitecture.Infrastructure.Data;
 /// <summary>
 /// DB Context. All configurations related to the Entities are done here.
 /// </summary>
-[TypeUsageWarning(typeof(SampleDbContext))]
 #pragma warning disable CS1591
 public sealed class SampleDbContext : DbContext
 {
