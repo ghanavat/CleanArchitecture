@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Shared.Enums;
 
-namespace CleanArchitecture.Template.Shared.Attributes;
+namespace CleanArchitecture.Shared.Attributes;
 
 /// <summary>
 /// To mark a factory method.
@@ -8,16 +8,16 @@ namespace CleanArchitecture.Template.Shared.Attributes;
 /// <remarks>
 /// This is used by the base factory to look up the factory method with some validation
 /// </remarks>
-[AttributeUsage(AttributeTargets.Method, Inherited = true)]
+[AttributeUsage(AttributeTargets.Method)]
 public class FactoryMethodAttribute : Attribute
 {
     /// <summary>
     /// Enum parameter that is used to mark the factory method with its parent class name
     /// </summary>
-    public FactoryMethodFor FactoryMethodName { get; set; }
+    public FactoryMethodFor FactoryMethodName { get; }
 
     /// <summary>
-    /// An attribute to indicate that the method it is applied on is a factory method
+    /// The custom attribute constructor
     /// </summary>
     /// <param name="factoryMethodName">Am enum to indicate what aggregate root this attribute belongs to. 
     /// This is used to look up the factory method in the aggregate root class</param>

@@ -39,7 +39,7 @@ public class Result : Result<Result>
     }
 
     /// <summary>
-    /// Represents error result with error message
+    /// Represents the error result with the error message
     /// </summary>
     /// <returns>An Error Result</returns>
     public new static Result Error(string errorMessage) => new(ResultStatus.Error)

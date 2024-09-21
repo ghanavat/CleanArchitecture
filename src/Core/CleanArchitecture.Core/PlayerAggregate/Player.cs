@@ -1,5 +1,7 @@
 ﻿using CleanArchitecture.Core.Interfaces;
 using CleanArchitecture.Shared;
+using CleanArchitecture.Shared.Attributes;
+using CleanArchitecture.Shared.Enums;
 using CleanArchitecture.Shared.Extensions;
 
 namespace CleanArchitecture.Core.PlayerAggregate;
@@ -10,26 +12,41 @@ namespace CleanArchitecture.Core.PlayerAggregate;
 /// </summary>
 public class Player : EntityBase, IAggregateRoot
 {
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-    
-    public Player(string firstName, string lastName)
+    /// <summary>
+    /// First Name domain property
+    /// </summary>
+    public string? FirstName { get; private set; }
+
+    /// <summary>
+    /// Last Name domain property
+    /// </summary>
+    public string? LastName { get; private set; }
+
+    /// <summary>
+    /// Default constructor
+    /// </summary>
+    public Player()
     {
-        FirstName = firstName.CheckForNull();
-        LastName = lastName.CheckForNull();
     }
 
     /// <summary>
-    /// Big no. Bad idea!!!
+    /// Private constructor used only by the factory method
     /// </summary>
-    public void AddPlayer()
+    /// <param name="firstName"></param>
+    /// <param name="lastName"></param>
+    private Player(string firstName, string lastName)
     {
-        /* 
-         * For documentation/intention purposes: 
-         * This is not supposed to be here. 
-         * When an entity needs to be populated for the first time, it is not a domain operation. 
-         * Instead, it needs to be dealt with at the application layer.
-        */
+        FirstName = firstName;
+        LastName = lastName;
+    }
+
+    /// <summary>
+    /// Factory method to create the entire aggregate
+    /// </summary>
+    [FactoryMethod(FactoryMethodFor.Player)]
+    internal Player AddPlayer(string firstName, string lastName)
+    {
+        return new Player(firstName, lastName);
     }
 
     /// <summary>

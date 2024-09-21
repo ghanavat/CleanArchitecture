@@ -1,4 +1,7 @@
+using CleanArchitecture.Core.Interfaces;
 using CleanArchitecture.Shared;
+using CleanArchitecture.Shared.Attributes;
+using CleanArchitecture.Shared.Enums;
 using CleanArchitecture.Shared.Extensions;
 
 namespace CleanArchitecture.Core.GameAggregate;
@@ -6,29 +9,67 @@ namespace CleanArchitecture.Core.GameAggregate;
 /// <summary>
 /// Game entity. This entity is internal and its identity referenced by the aggregate root
 /// </summary>
-public class Game : EntityBase
+public class Game : EntityBase, IAggregateRoot
 {
+    /// <summary>
+    /// Player ID domain property
+    /// </summary>
     public string? PlayerId { get; set; }
+
+    /// <summary>
+    /// Game Name domain property
+    /// </summary>
     public string? GameName { get; set; }
 
     /// <summary>
-    /// Add a new player to a game object
+    /// Default constructor
     /// </summary>
-    /// <param name="playerId">Player id that is going to be added</param>
-    /// <returns>Void</returns>
-    public void AddPlayer(string playerId)
+    public Game()
     {
-        PlayerId = playerId.CheckForNull();
-        // TODO publish domain event here
     }
 
     /// <summary>
-    /// Remove player from game object
+    /// Private constructor used only by the factory method
+    /// </summary>
+    /// <param name="gameName"></param>
+    private Game(string gameName)
+    {
+        GameName = gameName;
+    }
+
+    /// <summary>
+    /// Remove player from the game object
     /// </summary>
     /// <param name="playerId">Player id that is going to be removed</param>
     public void RemovePlayer(string playerId)
     {
         PlayerId = null;
         //TODO Publish domain event here
+    }
+    
+    /// <summary>
+    /// Factory method to create the entire aggregate
+    /// </summary>
+    /// <param name="playerId"></param>
+    /// <param name="gameName"></param>
+    /// <returns></returns>
+    [FactoryMethod(FactoryMethodFor.Game)]
+    internal Game AddNewGame(string playerId, string gameName)
+    {
+        var gameInstance = new Game(gameName);
+        gameInstance.AddPlayer(playerId);
+
+        return gameInstance;
+    }
+    
+    /// <summary>
+    /// Add a new player to the game object
+    /// </summary>
+    /// <param name="playerId">Player id that is going to be added</param>
+    /// <returns>Void</returns>
+    private void AddPlayer(string playerId)
+    {
+        PlayerId = playerId.CheckForNull();
+        // TODO publish domain event here
     }
 }

@@ -25,13 +25,7 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
         _logger = logger.CheckForNull();
     }
 
-    /// <summary>
-    /// Implementation of Handler for handling exceptions
-    /// </summary>
-    /// <param name="httpContext"></param>
-    /// <param name="exception"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns>Boolean</returns>
+    /// <inheritdoc/>
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         /* Handling Validation Exception */
@@ -51,7 +45,7 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
             {
                 Converters = { new JsonStringEnumConverter(JsonNamingPolicy.KebabCaseLower, false) }
             }, cancellationToken);
-        };
+        }
 
         await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
         {
@@ -61,6 +55,8 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
             Detail = $"There has been a problem with your request. {exception.Message}",
             Type = exception.GetType().Name
         }, cancellationToken: cancellationToken);
+        
+        _logger.LogError("There has been a problem with your request.");
 
         return true;
     }

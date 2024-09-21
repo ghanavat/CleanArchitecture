@@ -8,5 +8,6 @@
 public enum FactoryMethodFor
 {
     None,
-    SampleEntity
+    Game,
+    Player
 }

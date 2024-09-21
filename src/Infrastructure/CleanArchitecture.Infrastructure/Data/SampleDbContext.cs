@@ -10,6 +10,7 @@ namespace CleanArchitecture.Infrastructure.Data;
 /// DB Context. All configurations related to the Entities are done here.
 /// </summary>
 [TypeUsageWarning(typeof(SampleDbContext))]
+#pragma warning disable CS1591
 public sealed class SampleDbContext : DbContext
 {
     public DbSet<Player> Players => Set<Player>();

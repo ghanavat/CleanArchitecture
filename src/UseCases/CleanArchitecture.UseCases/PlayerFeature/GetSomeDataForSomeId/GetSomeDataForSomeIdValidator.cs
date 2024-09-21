@@ -9,6 +9,9 @@ public class GetSomeDataForSomeIdValidator : AbstractValidator<GetPlayerByIdQuer
 {
 	// Suggesting to use 'Severity' for scenarios where validation issues should not prevent the operation to be completed
 
+	/// <summary>
+	/// Validator constructor where the validation rules defined.
+	/// </summary>
 	public GetSomeDataForSomeIdValidator()
 	{
 		RuleFor(x => x.SomeId).NotEmpty()

@@ -1,8 +1,8 @@
 ﻿using CleanArchitecture.Core.Interfaces;
 using CleanArchitecture.Shared;
 using CleanArchitecture.Shared.Extensions;
-using CleanArchitecture.Template.Shared.Attributes;
 using System.Reflection;
+using CleanArchitecture.Shared.Attributes;
 
 namespace CleanArchitecture.Infrastructure.Factories;
 

@@ -14,7 +14,7 @@ public static class GuardClauseExtension
     /// </summary>
     /// <typeparam name="T">The object the null check is done against.</typeparam>
     /// <param name="input">The generic object that is being checked for its state.</param>
-    /// <param name="customException">Optional. A function to create custome exception.</param>
+    /// <param name="customException">Optional. A function to create custom exception.</param>
     /// <returns><paramref name="input" /> if the value is not null.</returns>
     /// <example>
     /// <code>

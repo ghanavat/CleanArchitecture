@@ -13,7 +13,7 @@ namespace CleanArchitecture.Shared.ResultMechanism;
 public class Result<T>
 {
     /// <summary>
-    /// Default protected construtor.
+    /// Default protected constructor.
     /// </summary>
     /// <remarks>
     /// It is used in Result.Void to return an instance of Success status without needing to pass any extra types.
@@ -47,8 +47,7 @@ public class Result<T>
     {
         Status = status;
     }
-
-
+    
     // TODO Do I need this?
     //[JsonIgnore]
     //public bool IsSuccess => Status is ResultStatus.OK;

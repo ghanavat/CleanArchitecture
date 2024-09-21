@@ -15,7 +15,7 @@ public abstract class ValueObject
     /// To implement equality instead of identity, which is the default.
     /// Why did I override this? By default, DotNet uses Reference Equality when comparing objects.
     /// However, for Value Objects, two instances should be considered equal if all of their properties/attributes are equal,
-    /// not just because theu point to the same memory location.
+    /// not just because the point to the same memory location.
     /// </summary>
     /// <param name="obj"></param>
     /// <returns></returns>
@@ -35,7 +35,7 @@ public abstract class ValueObject
     /// <summary>
     /// Objects that are considered equal, for Value Objects, they must also have the same hash code.
     /// Hash codes are used in collections.
-    /// I've overriddeen GetHashCode to generate new hash code based on the value of the attributes (obj).
+    /// I've overridden GetHashCode to generate new hash code based on the value of the attributes (obj).
     /// </summary>
     /// <returns></returns>
 

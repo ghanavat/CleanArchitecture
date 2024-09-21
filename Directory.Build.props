@@ -7,5 +7,6 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 </Project>

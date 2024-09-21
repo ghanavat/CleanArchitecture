@@ -9,17 +9,26 @@ using FluentValidation;
 
 namespace CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 
+/// <summary>
+/// Get Player by ID handler
+/// </summary>
 public class GetPlayerByIdHandler : IQueryHandler<GetPlayerByIdQuery, Result<FilteredPlayerDto>>
 {
     private readonly IRepository<Player> _repository;
     private readonly IValidator<GetPlayerByIdQuery> _validator;
 
+    /// <summary>
+    /// Handler constructor
+    /// </summary>
+    /// <param name="repository"></param>
+    /// <param name="validator"></param>
     public GetPlayerByIdHandler(IRepository<Player> repository, IValidator<GetPlayerByIdQuery> validator)
     {
         _repository = repository.CheckForNull();
         _validator = validator.CheckForNull();
     }
 
+    /// <inheritdoc/>
     public async Task<Result<FilteredPlayerDto>> Handle(GetPlayerByIdQuery request, CancellationToken cancellationToken)
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);

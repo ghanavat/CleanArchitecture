@@ -1,15 +1,7 @@
-﻿using CleanArchitecture.Core.Entities;
-using CleanArchitecture.Core.Interfaces;
+﻿using CleanArchitecture.Core.Interfaces;
 using CleanArchitecture.Shared;
 using CleanArchitecture.Shared.Extensions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.Linq;
-using MongoDB.EntityFrameworkCore.Storage.ValueConversion;
 using System.Linq.Expressions;
-using System.Text;
 using CleanArchitecture.Infrastructure.Data;
 
 namespace CleanArchitecture.Infrastructure.Repositories;
@@ -54,11 +46,6 @@ public abstract class RepositoryBase<T> : IRepository<T>
         throw new NotImplementedException();
     }
 
-    //public Task<T?> FirstOrDefaultAsync(ISpecification<T> specification, CancellationToken cancellationToken = default)
-    //{
-    //    throw new NotImplementedException();
-    //}
-
     /// <inheritdoc/>
     public virtual async Task<T?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default)
         where TId : notnull
@@ -86,13 +73,4 @@ public abstract class RepositoryBase<T> : IRepository<T>
     {
         throw new NotImplementedException();
     }
-
-    /* Only needed when MongoDb Driver is used.
-     * Idea is to prevent repeating a call to 'GetCollection'.
-     */
-    //protected IAggregateFluent<T> BaseAggregate()
-    //{
-    //    var sampleEntityCollection = _dbContext.GetCollection<T>(string.Empty);
-    //    return sampleEntityCollection.Aggregate();
-    //}
 }

@@ -1,6 +1,6 @@
 # Clean Architecture template
 
-A Clean Architecture approach to design better APIs.
+A Clean Architecture approach to design better applications.
 
 ![Clean Architecture layers!](/CleanArchitecture.jpg "Clean Architecture")
 
@@ -11,7 +11,7 @@ In Clean Architecture, the dependency rule says that projects must point inwards
 
 ## The image above
 I decided to put this image to remind ourselves what Clean Architecture looks like in theory.
-In the following sections I explain each layer in my own language.
+In the following sections, I explain each layer in my own language.
 
 ### Entities
 This is the core of the architecture. You use this layer to encapsulate all _business wide_ rules. In this document and the template I'm calling it **Core** layer.

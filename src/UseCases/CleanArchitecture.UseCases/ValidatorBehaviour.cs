@@ -14,6 +14,10 @@ public class ValidatorBehaviour<TRequest, TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
+    /// <summary>
+    /// Validation Behaviour constructor
+    /// </summary>
+    /// <param name="validators"></param>
     public ValidatorBehaviour(IEnumerable<IValidator<TRequest>> validators)
     {
         _validators = validators.CheckForNull();

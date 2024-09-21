@@ -1,8 +1,7 @@
-using System.ComponentModel;
-
 namespace CleanArchitecture.Shared.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, Inherited = false)]
+#pragma warning disable CS1591
 public class TypeUsageWarningAttribute : Attribute
 {
     public TypeUsageWarningAttribute(Type type)

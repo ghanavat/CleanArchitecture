@@ -2,6 +2,7 @@
 
 namespace CleanArchitecture.Shared.ResultMechanism;
 
+#pragma warning disable CS1591
 public class ValidationError
 {
     public ValidationError()

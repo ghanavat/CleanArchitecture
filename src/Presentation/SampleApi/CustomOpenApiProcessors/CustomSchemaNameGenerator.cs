@@ -29,17 +29,17 @@ public class CustomSchemaNameGenerator : ISchemaNameGenerator
         if (!type.IsGenericType) return typeName;
         
         /* Retrieving the generic argument of the 'type',
-             * i.e., 'SampleDto' of 'Result<SampleDto>'
+             * i.e. 'SampleDto' of 'Result<SampleDto>'
         */
         var genericArgument = string.Join(",", type.GetGenericArguments().Select(x => x.Name));
 
-        /* Generic type in DotNet are named with '`' suffix.
+        /* Generic types in DotNet are named with '`' suffix.
              * We are retrieving the index of the '`' character.
              */
         var index = typeName.IndexOf('`');
 
         /* Removing the '`' character by its index and creating a new string object.
-             * i.e., 'Result`' will be 'Result'
+             * I.e., 'Result`' will be 'Result'
              */
         var typeNameWithoutGeneric = index == -1 ? typeName : typeName[..index];
 

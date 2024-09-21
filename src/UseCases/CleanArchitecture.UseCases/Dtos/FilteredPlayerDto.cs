@@ -6,6 +6,7 @@
 /// I would suggest to use 'record' here as they are immutable
 /// <code>public record FeatureOneDto(int id, string Name, string description);</code>
 /// </summary>
+#pragma warning disable CS1591
 public class FilteredPlayerDto
 {
     public string? Id { get; set; }

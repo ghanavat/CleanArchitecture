@@ -16,7 +16,8 @@ using CleanArchitecture.Core.PlayerAggregate;
 using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 using SampleApi.CustomOpenApiProcessors;
 
-const string SampleOriginsName = "_sampleOriginsPolicyName";
+const string sampleOriginsName = "_sampleOriginsPolicyName";
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()
@@ -28,7 +29,7 @@ builder.Services.AddCors(corsOptions =>
 {
     /* Add your policies here */
 
-    corsOptions.AddPolicy(SampleOriginsName, policy =>
+    corsOptions.AddPolicy(sampleOriginsName, policy =>
     {
         policy.WithOrigins("https://some.domain.com")
             .AllowAnyHeader() /* To allow all headers in the CORS requests. */
@@ -75,7 +76,8 @@ builder.Services.AddMongoDb(builder.Configuration.GetSection("MongoDbSettings"))
 /* Authentication is configured as an example to show what it may look like.
  * Here we used AddJwtBearer (package: 'Microsoft.AspNetCore.Authentication.JwtBearer') scheme to validate the token. 
  * It is possible to use other schemes, such as Microsoft Identity WebApi (AddMicrosoftIdentityWebApi), 
- * when Microsoft Identity is used for authentication. -> Require to install 'Microsoft.Identity.Web'  package
+ * when Microsoft Identity is used for authentication.
+ * Require to install 'Microsoft.Identity.Web' package
  */
 builder.Services.AddAuthentication(options =>
 {
@@ -134,7 +136,7 @@ builder.Services
         {
             Type = OpenApiSecuritySchemeType.Http,
 
-            /* Require to install package: 'Microsoft.AspNetCore.Authentication.JwtBearer' */
+            /* Require installing package: 'Microsoft.AspNetCore.Authentication.JwtBearer' */
             Scheme = JwtBearerDefaults.AuthenticationScheme,
             BearerFormat = "JWT",
             Name = "Authorization",
@@ -176,17 +178,17 @@ builder.Services
 //    // To generate allOf for base types in models
 //    //options.UseAllOfForInheritance();
 
-//    // Should we need a bavse response typefor all of our responses, Swashbuckle needs to support inheritance.
+//    // Should we need a base response type for all of our responses, Swashbuckle needs to support inheritance.
 //    //options.SelectSubTypesUsing();
 //});
 
 var app = builder.Build();
 
 /* This is one way to 'enable' CORS. 
- * If you configured more than one policy, do not pass the 'policyName' argument.
- * For finer control in limiting endpoints that support CORS, use [EnableCors] attribute on your endpoints.
+ * If you configure more than one policy, do not pass the 'policyName' argument. 
+ * You can also apply finer controls and limit endpoints that support CORS by using the 'EnableCors' attribute on your endpoints.
  */
-app.UseCors(SampleOriginsName);
+app.UseCors(sampleOriginsName);
 
 // TODO For Strict-Transport-Security header
 app.UseHsts();
