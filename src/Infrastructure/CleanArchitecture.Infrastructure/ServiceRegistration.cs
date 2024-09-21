@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Core.Interfaces;
 using CleanArchitecture.Infrastructure.Data;
+using CleanArchitecture.Infrastructure.Factories;
 using CleanArchitecture.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ public static class ServiceRegistration
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services) 
     {
         services.AddScoped(typeof(IRepository<>), typeof(MarkerRepository<>));
+        services.AddScoped(typeof(IDomainFactory<,>), typeof(CreateEntityObjectFactory<,>));
         
         return services;
     }
