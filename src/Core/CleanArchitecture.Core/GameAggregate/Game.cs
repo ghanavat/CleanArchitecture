@@ -1,3 +1,4 @@
+using CleanArchitecture.Core.GameAggregate.Events;
 using CleanArchitecture.Core.Interfaces;
 using CleanArchitecture.Shared;
 using CleanArchitecture.Shared.Attributes;
@@ -19,7 +20,7 @@ public class Game : EntityBase, IAggregateRoot
     /// <summary>
     /// Game Name domain property
     /// </summary>
-    public string? GameName { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Default constructor
@@ -34,7 +35,7 @@ public class Game : EntityBase, IAggregateRoot
     /// <param name="gameName"></param>
     private Game(string gameName)
     {
-        GameName = gameName;
+        Name = gameName;
     }
 
     /// <summary>
@@ -44,7 +45,6 @@ public class Game : EntityBase, IAggregateRoot
     public void RemovePlayer(string playerId)
     {
         PlayerId = null;
-        //TODO Publish domain event here
     }
     
     /// <summary>
@@ -54,7 +54,7 @@ public class Game : EntityBase, IAggregateRoot
     /// <param name="gameName"></param>
     /// <returns></returns>
     [FactoryMethod(FactoryMethodFor.Game)]
-    internal Game AddNewGame(string playerId, string gameName)
+    internal static Game AddNewGame(string playerId, string gameName)
     {
         var gameInstance = new Game(gameName);
         gameInstance.AddPlayer(playerId);
@@ -70,6 +70,8 @@ public class Game : EntityBase, IAggregateRoot
     private void AddPlayer(string playerId)
     {
         PlayerId = playerId.CheckForNull();
-        // TODO publish domain event here
+        
+        var newPlayerEvent = new NewPlayerAddedToGameEvent(this, playerId);
+        AddDomainEvent(newPlayerEvent);
     }
 }

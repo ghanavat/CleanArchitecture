@@ -8,7 +8,7 @@ namespace CleanArchitecture.Shared.Attributes;
 /// <remarks>
 /// This is used by the base factory to look up the factory method with some validation
 /// </remarks>
-[AttributeUsage(AttributeTargets.Method)]
+[AttributeUsage(AttributeTargets.Method, Inherited = true)]
 public class FactoryMethodAttribute : Attribute
 {
     /// <summary>

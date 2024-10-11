@@ -27,12 +27,7 @@ public static class GuardClauseExtension
     {
         Exception? exception = customException?.Invoke();
 
-        if (input!.GetType().Name.Equals(nameof(String))
-            && string.IsNullOrEmpty(input.ToString()))
-        {
-            throw exception ?? new ArgumentNullException(nameof(input), StandardArgumentNullMessage);
-        }
-        else if (input is null)
+        if (input is null)
         {
             throw exception ?? new ArgumentNullException(nameof(input), StandardArgumentNullMessage);
         }

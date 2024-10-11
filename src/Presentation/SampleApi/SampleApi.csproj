@@ -39,16 +39,8 @@
 		<ProjectReference Include="..\..\UseCases\CleanArchitecture.UseCases\CleanArchitecture.UseCases.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Folder Include="ApiDocumentations\V1\" />
-	</ItemGroup>
-
-	<!--<Target Name="NSwag" AfterTargets="Build">
-		<Exec EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) dotnet-nswag aspnetcore2openapi /assembly:$(TargetDir)SampleApi.dll /output:$(ApiDocsFolder)/swagger.json" />
-	</Target>-->
-	
-	<!--<Target Name="NSwag" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' ">
-		<Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) dotnet-nswag run /ApiDocumentation/V1/nswag.json /runtime:Net80 /variables:Configuration=$(Configuration)" />
-	</Target>-->
+	<Target Name="NSwag" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug'">
+		<Exec EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Swagger/nswag.json /variables:Configuration=$(Configuration),DocumentVersion=v2" />
+	</Target>
 
 </Project>

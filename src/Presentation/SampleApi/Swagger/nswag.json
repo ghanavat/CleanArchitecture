@@ -1,10 +1,20 @@
 {
   "runtime": "Net80",
-  "defaultVariables": "OutDir=",
+  "defaultVariables": "Configuration=Debug;DocumentVersion=v1",
   "documentGenerator": {
-    "fromDocument": {
-      "url": "http://redocly.github.io/redoc/openapi.yaml",
-      "output": "$(OutDir)",
+    "aspNetCoreToOpenApi": {
+      "project": null,
+      "documentName": "$(DocumentVersion)",
+      "msBuildProjectExtensionsPath": null,
+      "configuration": null,
+      "runtime": null,
+      "targetFramework": null,
+      "noBuild": true,
+      "msBuildOutputPath": null,
+      "verbose": true,
+      "workingDirectory": null,
+      "aspNetCoreEnvironment": null,
+      "output": "$(DocumentVersion)/swagger.json",
       "newLineBehavior": "Auto"
     }
   },
@@ -147,7 +157,7 @@
       "inlineNamedDictionaries": false,
       "inlineNamedTuples": true,
       "inlineNamedAny": false,
-      "generateDtoTypes": false,
+      "generateDtoTypes": true,
       "generateOptionalPropertiesAsNullable": false,
       "generateNullableReferenceTypes": false,
       "templateDirectory": null,

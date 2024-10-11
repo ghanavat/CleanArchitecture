@@ -44,7 +44,7 @@ public class Player : EntityBase, IAggregateRoot
     /// Factory method to create the entire aggregate
     /// </summary>
     [FactoryMethod(FactoryMethodFor.Player)]
-    internal Player AddPlayer(string firstName, string lastName)
+    internal static Player AddPlayer(string firstName, string lastName)
     {
         return new Player(firstName, lastName);
     }
