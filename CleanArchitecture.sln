@@ -1,13 +1,12 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5FE5FDBF-6040-4B10-A70F-6407C4268FD7}"
 	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6A329706-CB9C-4D01-9398-F69A357FBA7F}"
@@ -26,13 +25,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UseCases", "UseCases", "{A2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.UseCases", "src\UseCases\CleanArchitecture.UseCases\CleanArchitecture.UseCases.csproj", "{A4CC8AEE-B3C5-4B56-85BD-C39A8C97F62D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Shared", "src\CleanArchitecture.Shared\CleanArchitecture.Shared.csproj", "{A105A473-0EC3-49B3-A318-85348B10A10B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Shared", "src\CleanArchitecture.Shared\CleanArchitecture.Shared.csproj", "{A105A473-0EC3-49B3-A318-85348B10A10B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{1C4715BB-074F-4FB3-9B91-7226EEF0E101}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApi", "src\Presentation\SampleApi\SampleApi.csproj", "{F4B23BD3-20A1-46D2-A7A3-977F0A14FC1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleApi", "src\Presentation\SampleApi\SampleApi.csproj", "{F4B23BD3-20A1-46D2-A7A3-977F0A14FC1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApi.Tests", "tests\SampleApi.Tests\SampleApi.Tests.csproj", "{D2A9E79C-CDA7-43C7-B143-B245866136FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleApi.Tests", "tests\SampleApi.Tests\SampleApi.Tests.csproj", "{D2A9E79C-CDA7-43C7-B143-B245866136FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UseCases.Tests", "tests\UseCases.Tests\UseCases.Tests.csproj", "{7B83C01C-AEC3-49C9-B9E1-08D6D7A9E804}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +65,10 @@ Global
 		{D2A9E79C-CDA7-43C7-B143-B245866136FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2A9E79C-CDA7-43C7-B143-B245866136FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2A9E79C-CDA7-43C7-B143-B245866136FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B83C01C-AEC3-49C9-B9E1-08D6D7A9E804}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B83C01C-AEC3-49C9-B9E1-08D6D7A9E804}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B83C01C-AEC3-49C9-B9E1-08D6D7A9E804}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B83C01C-AEC3-49C9-B9E1-08D6D7A9E804}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,9 +81,10 @@ Global
 		{A277AFB1-B9FE-462A-98A8-E7ADC738CF25} = {0B7E7ACC-3012-442F-AD37-769B46E1803A}
 		{A4CC8AEE-B3C5-4B56-85BD-C39A8C97F62D} = {A277AFB1-B9FE-462A-98A8-E7ADC738CF25}
 		{A105A473-0EC3-49B3-A318-85348B10A10B} = {0B7E7ACC-3012-442F-AD37-769B46E1803A}
-		{F4B23BD3-20A1-46D2-A7A3-977F0A14FC1F} = {1C4715BB-074F-4FB3-9B91-7226EEF0E101}
 		{1C4715BB-074F-4FB3-9B91-7226EEF0E101} = {0B7E7ACC-3012-442F-AD37-769B46E1803A}
+		{F4B23BD3-20A1-46D2-A7A3-977F0A14FC1F} = {1C4715BB-074F-4FB3-9B91-7226EEF0E101}
 		{D2A9E79C-CDA7-43C7-B143-B245866136FF} = {6A329706-CB9C-4D01-9398-F69A357FBA7F}
+		{7B83C01C-AEC3-49C9-B9E1-08D6D7A9E804} = {6A329706-CB9C-4D01-9398-F69A357FBA7F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A2310566-0F9C-4A84-9826-2E5613E3525E}

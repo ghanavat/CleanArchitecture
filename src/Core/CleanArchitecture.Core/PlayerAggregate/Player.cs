@@ -3,6 +3,9 @@ using CleanArchitecture.Shared;
 using CleanArchitecture.Shared.Attributes;
 using CleanArchitecture.Shared.Enums;
 using CleanArchitecture.Shared.Extensions;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("UseCases.Tests")]
 
 namespace CleanArchitecture.Core.PlayerAggregate;
 
