@@ -7,20 +7,21 @@
     "version": "v2"
   },
   "paths": {
-    "/Sample/v2/example_something_get/{someId}": {
+    "/v2/player/{playerId}": {
       "get": {
         "tags": [
-          "Sample"
+          "Player"
         ],
         "summary": "Sample Get endpoint.\nIt has 'Authorize' attribute and API Versioning.",
-        "operationId": "GetSomethingAsync",
+        "operationId": "GetPlayerByIdAsync",
         "parameters": [
           {
-            "name": "someId",
+            "name": "playerId",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 1
           }
@@ -98,16 +99,18 @@
       },
       "FilteredPlayerDto": {
         "type": "object",
-        "description": "A sample DTO object.\nThis DTO holds on to the response data to be returned to the user.\nI would suggest to use 'record' here as they are immutable\npublic record FeatureOneDto(int id, string Name, string description);",
         "additionalProperties": false,
         "properties": {
           "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "full-name": {
             "type": "string",
             "nullable": true
           },
-          "name": {
-            "type": "string",
-            "nullable": true
+          "is-deleted": {
+            "type": "boolean"
           }
         }
       },
@@ -171,7 +174,7 @@
   },
   "tags": [
     {
-      "name": "Sample",
+      "name": "Player",
       "description": "Sample Controller for the Clean Architecture proposal"
     }
   ]

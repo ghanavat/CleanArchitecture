@@ -41,16 +41,23 @@ public class GetPlayerByIdHandler : IQueryHandler<GetPlayerByIdQuery, Result<Fil
             ValidationErrorType = (ValidationErrorType)validationError.Severity
         });
 
-        if (!validationResult.IsValid) return Result.Invalid(errors);
-        
-        var result = await _repository.GetByIdAsync(request.SomeId, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            return Result.Invalid(errors);
+        }
 
-        if (result == null) { return Result<FilteredPlayerDto>.Error("Sample error message."); }
+        var result = await _repository.GetByIdAsync(request.PlayerId, cancellationToken);
+
+        if (result == null)
+        {
+            return Result<FilteredPlayerDto>.Error("Sample error message.");
+        }
 
         return new FilteredPlayerDto
         {
             Id = result.Id,
-            Name = $"{result.FirstName} {result.LastName}"
+            FullName = $"{result.FirstName} {result.LastName}",
+            IsDeleted = result.IsDeleted
         };
     }
 }

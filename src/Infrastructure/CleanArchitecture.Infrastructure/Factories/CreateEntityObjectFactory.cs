@@ -58,16 +58,6 @@ internal class CreateEntityObjectFactory<TRequest, TResponse>
             return null;
         }
 
-        var baseType = constructorInfo.GetType().BaseType;
-        if (baseType is null)
-        {
-            return null;
-        }
-        else if (baseType.Equals(typeof(EntityBase)))
-        {
-            
-        }
-
         var requestProperties = typeof(TRequest).GetProperties();
 
         var constructorInstance = constructorInfo.Invoke(null);

@@ -5,7 +5,7 @@ using CleanArchitecture.UseCases.Dtos;
 namespace CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 
 /// <summary>
-/// A sample query to fetch some fake data
+/// Query for fetching player details
 /// </summary>
-/// <param name="SomeId"></param>
-public record GetPlayerByIdQuery(string SomeId) : IQuery<Result<FilteredPlayerDto>>;
+/// <param name="PlayerId"></param>
+public record GetPlayerByIdQuery(int PlayerId) : IQuery<Result<FilteredPlayerDto>>;

@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CleanArchitecture.Core.PlayerAggregate;
+using CleanArchitecture.Shared;
 using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 using SampleApi.CustomOpenApiProcessors;
 
@@ -70,8 +71,9 @@ builder.Services.AddApiVersioning(
 ConfigureMediatR();
 
 builder.Services.AddUseCasesServices();
+builder.Services.AddSqlDb(builder.Configuration.GetSection("SqlServerSettings"), builder.Environment.IsDevelopment());
 builder.Services.AddInfrastructureServices();
-builder.Services.AddMongoDb(builder.Configuration.GetSection("MongoDbSettings"));
+builder.Services.AddSharedServices();
 
 /* Authentication is configured as an example to show what it may look like.
  * Here we used AddJwtBearer (package: 'Microsoft.AspNetCore.Authentication.JwtBearer') scheme to validate the token. 
@@ -164,23 +166,10 @@ builder.Services
         settings.OperationProcessors.Add(new CustomOperationProcessor());
     });
 
-//TODO Setup Swagger Gen here
-//builder.Services.AddSwaggerGen(options =>
-//{
-//    // This overrides the default operation so they match the controller actions names
-//    options.CustomOperationIds(x =>
-//    {
-//        return x.TryGetMethodInfo(out var methodInfo)
-//        ? methodInfo.Name
-//        : null;
-//    });
-
-//    // To generate allOf for base types in models
-//    //options.UseAllOfForInheritance();
-
-//    // Should we need a base response type for all of our responses, Swashbuckle needs to support inheritance.
-//    //options.SelectSubTypesUsing();
-//});
+builder.Services.AddRouting((options) =>
+{
+    options.LowercaseUrls = true;
+});
 
 var app = builder.Build();
 
@@ -217,7 +206,6 @@ return;
 
 void ConfigureJsonSerializers(JsonSerializerOptions options)
 {
-    // TODO decide the naming policy
     options.PropertyNamingPolicy = JsonNamingPolicy.KebabCaseLower;
     options.WriteIndented = true;
     options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.KebabCaseLower, false));
@@ -229,7 +217,7 @@ void ConfigureMediatR()
       {
         Assembly.GetAssembly(typeof(Player)), // Core
         Assembly.GetAssembly(typeof(GetPlayerByIdQuery)), // UseCases
-        Assembly.GetAssembly(typeof(SampleDbContext)), // Infrastructure
+        Assembly.GetAssembly(typeof(PlayGroundDbContext)), // Infrastructure
         Assembly.GetAssembly(typeof(IQuery<>)) // Shared
       };
 

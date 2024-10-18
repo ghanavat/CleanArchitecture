@@ -2,14 +2,12 @@
 using CleanArchitecture.Infrastructure.Data;
 using CleanArchitecture.Infrastructure.Factories;
 using CleanArchitecture.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Driver;
+using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Infrastructure;
 
-#pragma warning disable CS1591
 public static class ServiceRegistration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services) 
@@ -19,13 +17,20 @@ public static class ServiceRegistration
         
         return services;
     }
-
-    public static IServiceCollection AddMongoDb(this IServiceCollection services, IConfigurationSection configurationSection)
+    
+    public static IServiceCollection AddSqlDb(this IServiceCollection services, 
+        IConfigurationSection configurationSection, 
+        bool isDevelopment)
     {
-        var mongoClient = new MongoClient(configurationSection["ConnectionString"]);
-        services.AddDbContextPool<SampleDbContext>((serviceCollections, options) =>
+        services.AddDbContextPool<PlayGroundDbContext>((options) =>
         {
-            options.UseMongoDB(mongoClient, "PlayGround");
+            options.UseSqlServer(configurationSection["ConnectionString"]);
+            
+            if (isDevelopment)
+            {
+                options.EnableDetailedErrors()
+                    .EnableSensitiveDataLogging();
+            }
         });
 
         return services;

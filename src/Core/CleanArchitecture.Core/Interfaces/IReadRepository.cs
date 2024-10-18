@@ -4,7 +4,7 @@ using CleanArchitecture.Shared;
 namespace CleanArchitecture.Core.Interfaces;
 
 /// <summary>
-/// A base abstraction for read only operations.
+/// A base abstraction for read-only operations.
 /// Don't use this interface directly for custom repositories.
 /// </summary>
 /// <typeparam name="T">An entity to which the repository operations will be written against</typeparam>

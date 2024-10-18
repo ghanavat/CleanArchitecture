@@ -10,21 +10,14 @@ namespace CleanArchitecture.Infrastructure.Repositories;
 public abstract class RepositoryBase<T> : IRepository<T> 
     where T : EntityBase, IAggregateRoot
 {
-    //private readonly IMongoClient _client;
-    //private readonly IMongoDatabase _dbContext;
-    private readonly SampleDbContext _efDbContext;
-    //private readonly string _collectionName;
+    private readonly PlayGroundDbContext _efDbContext;
 
     /// <summary>
     /// Repository Base constructor
     /// </summary>
     /// <param name="efDbContext">EF DB Context dependency</param>
-    protected RepositoryBase(SampleDbContext efDbContext) //string collectionName
+    protected RepositoryBase(PlayGroundDbContext efDbContext)
     {
-        // Inject your DbContext here
-
-        //_dbContext = dbContext.CheckNotNull(); //_client.GetDatabase("databaseName");
-        //_collectionName = collectionName.CheckNotNull();
         _efDbContext = efDbContext.CheckForNull();
     }
 
@@ -50,13 +43,6 @@ public abstract class RepositoryBase<T> : IRepository<T>
     public virtual async Task<T?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default)
         where TId : notnull
     {
-        /*Using MongoDb Driver*/
-        //var aggregate = BaseAggregate();
-        //var match = aggregate.Match(x => x.Id == id);
-
-        //return await match.FirstOrDefaultAsync(cancellationToken);
-
-        /*Using MongoDb EF Core*/
         var result = await _efDbContext.Set<T>().FindAsync([id], cancellationToken);
         return result;
     }
@@ -78,11 +64,10 @@ public abstract class RepositoryBase<T> : IRepository<T>
 /// <summary>
 /// Do not use. This is a marker class to allow IRepository to be registered in composition root.
 /// </summary>
-/// <typeparam name="T">An entity to which the repository operations will be written for</typeparam>
-#pragma warning disable CS1591
+/// <typeparam name="T">An entity to which the repository operations will be implemented for</typeparam>
 public class MarkerRepository<T> : RepositoryBase<T> where T : EntityBase, IAggregateRoot
 {
-    public MarkerRepository(SampleDbContext efContext) 
+    public MarkerRepository(PlayGroundDbContext efContext) 
         : base(efContext)
     { }
 }

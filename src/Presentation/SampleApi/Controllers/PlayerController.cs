@@ -6,7 +6,6 @@ using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NSwag.Annotations;
 using SampleApi.Requests;
 
 namespace SampleApi.Controllers;
@@ -15,25 +14,21 @@ namespace SampleApi.Controllers;
 /// Sample Controller for the Clean Architecture proposal
 /// </summary>
 [ApiController]
-[Route("[controller]/v{version:apiVersion}")]
+[Route("v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 [ApiVersion("2.0")]
 [ApiVersion("3.0")]
-public class SampleController : ControllerBase
+public class PlayerController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly ILogger<SampleController> _logger;
 
     /// <summary>
     /// Sample Controller constructor
     /// </summary>
-    /// <param name="mediator">Mediator dependency to send Commands and Queries</param>
-    /// <param name="logger">Logger dependency</param>
-    /// <exception cref="InvalidCastException"></exception>
-    public SampleController(IMediator mediator, ILogger<SampleController> logger)
+    /// <param name="mediator">Mediator dependency for sending Commands and Queries</param>
+    public PlayerController(IMediator mediator)
     {
         _mediator = mediator.CheckForNull();
-        _logger = logger.CheckForNull();
     }
 
     /// <summary>
@@ -41,14 +36,12 @@ public class SampleController : ControllerBase
     /// It has 'Authorize' attribute and API Versioning.
     /// </summary>
     /// <returns>OK or BadRequest</returns>
-    [HttpGet("example_something_get/{someId}")]
+    [HttpGet("{playerId:int}")]
     [Authorize(Policy = "SamplePolicy", Roles = "SampleRole")]
-    //[ProducesResponseType(typeof(Result<SampleFilteredWithIdDto>), StatusCodes.Status200OK)]
-    //[SwaggerResponse(StatusCodes.Status200OK, typeof(Result<SampleFilteredWithIdDto>))]
     [MapToApiVersion("2.0")]
-    public Task<Result<FilteredPlayerDto>> GetSomethingAsync([FromRoute] string someId) /* We don't have to use IActionResult return type, if only one type is returned. */
+    public Task<Result<FilteredPlayerDto>> GetPlayerByIdAsync([FromRoute] int playerId)
     {
-        var query = new GetPlayerByIdQuery(someId);
+        var query = new GetPlayerByIdQuery(playerId);
         return _mediator.Send(query);
     }
 
@@ -59,7 +52,6 @@ public class SampleController : ControllerBase
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
     [HttpPost("example_something_post/new")]
-    [SwaggerResponse(StatusCodes.Status200OK, typeof(Result<>))]
     [MapToApiVersion("3.0")]
     public Task<IActionResult> PostSomethingAsync()
     {
@@ -69,13 +61,12 @@ public class SampleController : ControllerBase
     /// <summary>
     /// A sample endpoint wth PUT.
     /// PUT is used for both creating and updating, but primarily it does UPDATE in CRUD.
-    /// When the reference to the resource exists, an UPDATE operations happens, otherwise CREATE.
+    /// When the reference to the resource exists, UPDATE operations happen, otherwise CREATE.
     /// </summary>
     /// <param name="requestModel"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
     [HttpPut("example_something_put/new")]
-    [SwaggerResponse(StatusCodes.Status200OK, typeof(Result<>))]
     [MapToApiVersion("1.0")]
     public Task<IActionResult> CreateSomethingAsync([FromBody] UpdateSampleRequestModel requestModel)
     {
@@ -90,7 +81,6 @@ public class SampleController : ControllerBase
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
     [HttpPatch("example_something_patch/{someId:int}")]
-    [SwaggerResponse(StatusCodes.Status200OK, typeof(Result<>))]
     [MapToApiVersion("1.0")]
     public Task<IActionResult> UpdateSomething([FromRoute] int someId)
     {
@@ -105,7 +95,6 @@ public class SampleController : ControllerBase
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
     [HttpDelete("example_something_delete/{someId:int}")]
-    [SwaggerResponse(StatusCodes.Status200OK, typeof(Result<>))]
     [MapToApiVersion("1.0")]
     public Task<IActionResult> DeleteSomething([FromRoute] int someId)
     {

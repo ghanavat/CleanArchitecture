@@ -15,16 +15,16 @@ namespace CleanArchitecture.Core.PlayerAggregate;
 /// </summary>
 public class Player : EntityBase, IAggregateRoot
 {
-    /// <summary>
-    /// First Name domain property
-    /// </summary>
     public string? FirstName { get; private set; }
 
-    /// <summary>
-    /// Last Name domain property
-    /// </summary>
     public string? LastName { get; private set; }
 
+    public bool IsDeleted { get; set; }
+
+    public string? Comment { get; set; }
+
+    public DateOnly DateCreated { get; private set; } = DateOnly.FromDateTime(DateTime.Today);
+    
     /// <summary>
     /// Default constructor
     /// </summary>
@@ -33,33 +33,45 @@ public class Player : EntityBase, IAggregateRoot
     }
 
     /// <summary>
+    /// Update player details
+    /// </summary>
+    /// <param name="firstName">firstName of the player</param>
+    /// <param name="lastName">lastName of the player</param>
+    /// <param name="comment"></param>
+    public void UpdatePlayerDetails(string firstName, string lastName, string comment)
+    {
+        FirstName = firstName.CheckForNull();
+        LastName = lastName.CheckForNull();
+        Comment = comment;
+    }
+
+    /// <summary>
+    /// Softly deletes a game
+    /// </summary>
+    public void SoftDeletePlayer()
+    {
+        IsDeleted = true;
+    }
+
+    /// <summary>
     /// Private constructor used only by the factory method
     /// </summary>
     /// <param name="firstName"></param>
     /// <param name="lastName"></param>
-    private Player(string firstName, string lastName)
+    /// <param name="comment"></param>
+    private Player(string firstName, string lastName, string comment)
     {
         FirstName = firstName;
         LastName = lastName;
+        Comment = comment;
     }
 
     /// <summary>
     /// Factory method to create the entire aggregate
     /// </summary>
     [FactoryMethod(FactoryMethodFor.Player)]
-    internal static Player AddPlayer(string firstName, string lastName)
+    internal static Player AddPlayer(string firstName, string lastName, string comment)
     {
-        return new Player(firstName, lastName);
-    }
-
-    /// <summary>
-    /// Update player details
-    /// </summary>
-    /// <param name="firstName">firstName of the player</param>
-    /// <param name="lastName">lastName of the player</param>
-    public void UpdatePlayerDetails(string firstName, string lastName)
-    {
-        FirstName = firstName.CheckForNull();
-        LastName = lastName.CheckForNull();
+        return new Player(firstName, lastName, comment);
     }
 }

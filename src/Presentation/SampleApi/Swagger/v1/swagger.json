@@ -1,0 +1,137 @@
+{
+  "x-generator": "NSwag v14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Clean Architecture template",
+    "description": "A template based on Clean Architecture rules. This template aims to show/help developers with setting up a solution based on Clean Architecture rules and guidelines.",
+    "version": "v1"
+  },
+  "paths": {
+    "/v1/player/example_something_put/new": {
+      "put": {
+        "tags": [
+          "Player"
+        ],
+        "summary": "A sample endpoint wth PUT.\nPUT is used for both creating and updating, but primarily it does UPDATE in CRUD.\nWhen the reference to the resource exists, UPDATE operations happen, otherwise CREATE.",
+        "operationId": "CreateSomethingAsync",
+        "requestBody": {
+          "x-name": "requestModel",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSampleRequestModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/player/example_something_patch/{someId}": {
+      "patch": {
+        "tags": [
+          "Player"
+        ],
+        "summary": "A sample endpoint with PATCH.\nPATCH is used for partially update a resource.",
+        "operationId": "UpdateSomething",
+        "parameters": [
+          {
+            "name": "someId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/player/example_something_delete/{someId}": {
+      "delete": {
+        "tags": [
+          "Player"
+        ],
+        "summary": "A sample endpoint with DELETE.\nIt is used to delete a specified resource.",
+        "operationId": "DeleteSomething",
+        "parameters": [
+          {
+            "name": "someId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UpdateSampleRequestModel": {
+        "type": "object",
+        "description": "Request Model",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Player",
+      "description": "Sample Controller for the Clean Architecture proposal"
+    }
+  ]
+}

@@ -11,7 +11,7 @@ namespace CleanArchitecture.UseCases.PlayerFeature.Create;
 /// <summary>
 /// Create Player handler implementation
 /// </summary>
-public class CreatePlayerHandler : ICommandHandler<CreatePlayerCommand, Result<string>>
+public class CreatePlayerHandler : ICommandHandler<CreatePlayerCommand, Result<int>>
 {
     private readonly IRepository<Player> _repository;
     private readonly IValidator<CreatePlayerCommand> _validator;
@@ -33,7 +33,7 @@ public class CreatePlayerHandler : ICommandHandler<CreatePlayerCommand, Result<s
     }
     
     /// <inheritdoc/>
-    public async Task<Result<string>> Handle(CreatePlayerCommand request, CancellationToken cancellationToken)
+    public async Task<Result<int>> Handle(CreatePlayerCommand request, CancellationToken cancellationToken)
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         
@@ -50,13 +50,13 @@ public class CreatePlayerHandler : ICommandHandler<CreatePlayerCommand, Result<s
         var player = _domainFactory.CreateEntityObject(request);
         if (player is null)
         {
-            return Result<string>.Error($"Something has gone wrong and we were unable to create new object for {nameof(Player)} entity");
+            return Result<int>.Error($"Something has gone wrong and we were unable to create new object for {nameof(Player)} entity");
         }
         
         var newPlayerResult = await _repository.AddAsync(player, cancellationToken);
-        if (newPlayerResult.Id == null)
+        if (newPlayerResult.Id.Equals(0))
         {
-            return Result<string>.Error($"Something has gone wrong and we were unable to persist the data for {nameof(Player)}");
+            return Result<int>.Error($"Something has gone wrong and we were unable to persist the data for {nameof(Player)}");
         }
         
         return newPlayerResult.Id;

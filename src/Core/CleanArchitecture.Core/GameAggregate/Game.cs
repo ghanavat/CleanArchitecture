@@ -12,15 +12,15 @@ namespace CleanArchitecture.Core.GameAggregate;
 /// </summary>
 public class Game : EntityBase, IAggregateRoot
 {
-    /// <summary>
-    /// Player ID domain property
-    /// </summary>
     public string? PlayerId { get; set; }
 
-    /// <summary>
-    /// Game Name domain property
-    /// </summary>
     public string? Name { get; set; }
+
+    public bool IsDeleted { get; set; }
+
+    public string? Comment { get; set; }
+
+    public DateOnly DateCreated { get; private set; } = DateOnly.FromDateTime(DateTime.Today);
 
     /// <summary>
     /// Default constructor
@@ -32,10 +32,12 @@ public class Game : EntityBase, IAggregateRoot
     /// <summary>
     /// Private constructor used only by the factory method
     /// </summary>
-    /// <param name="gameName"></param>
-    private Game(string gameName)
+    /// <param name="name"></param>
+    /// <param name="comment"></param>
+    private Game(string name, string comment)
     {
-        Name = gameName;
+        Name = name;
+        Comment = comment;
     }
 
     /// <summary>
@@ -46,17 +48,26 @@ public class Game : EntityBase, IAggregateRoot
     {
         PlayerId = null;
     }
-    
+
+    /// <summary>
+    /// Softly deletes a game
+    /// </summary>
+    public void SoftDeleteGame()
+    {
+        IsDeleted = true;
+    }
+
     /// <summary>
     /// Factory method to create the entire aggregate
     /// </summary>
     /// <param name="playerId"></param>
     /// <param name="gameName"></param>
+    /// <param name="comment"></param>
     /// <returns></returns>
     [FactoryMethod(FactoryMethodFor.Game)]
-    internal static Game AddNewGame(string playerId, string gameName)
+    internal static Game AddNewGame(string playerId, string gameName, string comment)
     {
-        var gameInstance = new Game(gameName);
+        var gameInstance = new Game(gameName, comment);
         gameInstance.AddPlayer(playerId);
 
         return gameInstance;

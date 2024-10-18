@@ -14,7 +14,7 @@ public class GetSomeDataForSomeIdValidator : AbstractValidator<GetPlayerByIdQuer
 	/// </summary>
 	public GetSomeDataForSomeIdValidator()
 	{
-		RuleFor(x => x.SomeId).NotEmpty()
+		RuleFor(x => x.PlayerId).NotEqual(0)
 			.WithSeverity(Severity.Error);
 	}
 }
