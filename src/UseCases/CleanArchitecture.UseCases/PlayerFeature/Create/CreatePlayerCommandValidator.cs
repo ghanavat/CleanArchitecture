@@ -14,5 +14,6 @@ public class CreatePlayerCommandValidator : AbstractValidator<CreatePlayerComman
     {
         RuleFor(x => x.FirstName).NotEmpty().WithSeverity(Severity.Error);
         RuleFor(x => x.LastName).NotEmpty().WithSeverity(Severity.Error);
+        RuleFor(x => x.Comment).NotEmpty().WithSeverity(Severity.Error);
     }
 }

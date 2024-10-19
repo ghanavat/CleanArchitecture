@@ -2,6 +2,7 @@ using Asp.Versioning;
 using CleanArchitecture.Shared.Extensions;
 using CleanArchitecture.Shared.ResultMechanism;
 using CleanArchitecture.UseCases.Dtos;
+using CleanArchitecture.UseCases.PlayerFeature.Create;
 using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -32,8 +33,8 @@ public class PlayerController : ControllerBase
     }
 
     /// <summary>
-    /// Sample Get endpoint.
-    /// It has 'Authorize' attribute and API Versioning.
+    /// Get Player by ID
+    /// <remarks>It has 'Authorize' attribute and API Versioning.</remarks>
     /// </summary>
     /// <returns>OK or BadRequest</returns>
     [HttpGet("{playerId:int}")]
@@ -46,16 +47,17 @@ public class PlayerController : ControllerBase
     }
 
     /// <summary>
-    /// A sample endpoint with POST.
-    /// POST is equivalent to CREATE in CRUD.
+    /// Create new Player
+    /// <remarks>POST is equivalent to CREATE in CRUD.</remarks>
     /// </summary>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    [HttpPost("example_something_post/new")]
+    /// <returns>The value of the primary key</returns>
+    [HttpPost("new")]
+    [Authorize(Policy = "SamplePolicy", Roles = "SampleRole")]
     [MapToApiVersion("3.0")]
-    public Task<IActionResult> PostSomethingAsync()
+    public Task<Result<int>> CreateNewPlayerAsync([FromBody] CreatePlayerRequestModel requestModel)
     {
-        throw new NotImplementedException();
+        var command = new CreatePlayerCommand(requestModel.FirstName, requestModel.Lastname, requestModel.Comment);
+        return _mediator.Send(command);
     }
 
     /// <summary>

@@ -22,9 +22,12 @@ public abstract class RepositoryBase<T> : IRepository<T>
     }
 
     /// <inheritdoc/>
-    public virtual Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
+    public virtual async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        _efDbContext.Add(entity);
+        await _efDbContext.SaveChangesAsync(cancellationToken);
+
+        return entity;
     }
 
     /// <inheritdoc/>

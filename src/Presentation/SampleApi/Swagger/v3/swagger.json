@@ -4,70 +4,59 @@
   "info": {
     "title": "Clean Architecture template",
     "description": "A template based on Clean Architecture rules. This template aims to show/help developers with setting up a solution based on Clean Architecture rules and guidelines.",
-    "version": "v2"
+    "version": "v3"
   },
   "paths": {
-    "/v2/player/{playerId}": {
-      "get": {
+    "/v3/player/new": {
+      "post": {
         "tags": [
           "Player"
         ],
-        "summary": "Get Player by ID\nIt has 'Authorize' attribute and API Versioning.",
-        "operationId": "GetPlayerByIdAsync",
-        "parameters": [
-          {
-            "name": "playerId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
+        "summary": "Create new Player\nPOST is equivalent to CREATE in CRUD.",
+        "operationId": "CreateNewPlayerAsync",
+        "requestBody": {
+          "x-name": "requestModel",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlayerRequestModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
         "responses": {
           "200": {
-            "description": "OK or BadRequest",
+            "description": "The value of the primary key",
             "content": {
               "application/json": {
                 "schema": {
                   "nullable": true,
                   "oneOf": [
                     {
-                      "$ref": "#/components/schemas/Result<FilteredPlayerDto>"
+                      "$ref": "#/components/schemas/Result<Int32>"
                     }
                   ]
                 }
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer": [
-              "SampleRole"
-            ]
-          }
-        ]
+        }
       }
     }
   },
   "components": {
     "schemas": {
-      "Result<FilteredPlayerDto>": {
+      "Result<Int32>": {
         "type": "object",
         "description": "Result class.",
         "additionalProperties": false,
         "properties": {
           "data": {
+            "type": "integer",
             "description": "Data property of type  which holds the details of the result as a Json field.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/FilteredPlayerDto"
-              }
-            ]
+            "format": "int32"
           },
           "status": {
             "description": "Set is protected and accessible by derived classes",
@@ -94,23 +83,6 @@
           "success-message": {
             "type": "string",
             "description": "Set is protected and accessible by derived classes"
-          }
-        }
-      },
-      "FilteredPlayerDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "full-name": {
-            "type": "string",
-            "nullable": true
-          },
-          "is-deleted": {
-            "type": "boolean"
           }
         }
       },
@@ -160,15 +132,21 @@
           "warning",
           "info"
         ]
-      }
-    },
-    "securitySchemes": {
-      "SecuritySchemeName": {
-        "type": "http",
-        "description": "Place your valid JWT Bearer Token into the below Value box.",
-        "name": "Authorization",
-        "scheme": "Bearer",
-        "bearerFormat": "JWT"
+      },
+      "CreatePlayerRequestModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "first-name": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          }
+        }
       }
     }
   },
