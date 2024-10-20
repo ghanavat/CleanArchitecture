@@ -9,4 +9,4 @@ namespace CleanArchitecture.UseCases.PlayerFeature.Create;
 /// <param name="FirstName"></param>
 /// <param name="LastName"></param>
 /// <param name="Comment"></param>
-public record CreatePlayerCommand(string FirstName, string LastName, string Comment) : ICommand<Result<int>>;
+public record CreatePlayerCommand(string FirstName, string? LastName, string? Comment) : ICommand<Result<int>>;

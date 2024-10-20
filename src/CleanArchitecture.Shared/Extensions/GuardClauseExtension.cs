@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace CleanArchitecture.Shared.Extensions;
 
@@ -14,6 +15,7 @@ public static class GuardClauseExtension
     /// </summary>
     /// <typeparam name="T">The object the null check is done against.</typeparam>
     /// <param name="input">The generic object that is being checked for its state.</param>
+    /// <param name="paramName"></param>
     /// <param name="customException">Optional. A function to create custom exception.</param>
     /// <returns><paramref name="input" /> if the value is not null.</returns>
     /// <example>
@@ -23,13 +25,14 @@ public static class GuardClauseExtension
     /// </code>
     /// </example>
     public static T CheckForNull<T>([NotNull] this T? input,
-        Func<Exception>? customException = null) where T : class
+        Func<Exception>? customException = null,
+        [CallerArgumentExpression("input")] string? paramName = null) where T : class
     {
-        Exception? exception = customException?.Invoke();
+        var exception = customException?.Invoke();
 
         if (input is null)
         {
-            throw exception ?? new ArgumentNullException(nameof(input), StandardArgumentNullMessage);
+            throw exception ?? new ArgumentNullException(paramName, StandardArgumentNullMessage);
         }
 
         return input;

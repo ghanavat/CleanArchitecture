@@ -141,10 +141,12 @@
             "type": "string"
           },
           "lastname": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "comment": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         }
       }

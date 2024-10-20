@@ -15,13 +15,13 @@ namespace CleanArchitecture.Core.PlayerAggregate;
 /// </summary>
 public class Player : EntityBase, IAggregateRoot
 {
-    public string? FirstName { get; private set; }
-
+    public string FirstName { get; private set; } = string.Empty;
+    
     public string? LastName { get; private set; }
 
-    public bool IsDeleted { get; set; }
+    public bool IsDeleted { get; private set; }
 
-    public string? Comment { get; set; }
+    public string? Comment { get; private set; }
 
     public DateOnly DateCreated { get; private set; } = DateOnly.FromDateTime(DateTime.Today);
     
