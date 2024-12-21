@@ -37,4 +37,15 @@ public static class GuardClauseExtension
 
         return input;
     }
+    
+    /// <summary>
+    /// Check if the collection is null or empty
+    /// </summary>
+    /// <param name="inputCollection"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns>A boolean result of the check</returns>
+    public static bool IsNullOrAny<T>([NotNullWhen(false)] this IEnumerable<T>? inputCollection) where T : class
+    {
+        return inputCollection is not null && inputCollection.Any();
+    }
 }

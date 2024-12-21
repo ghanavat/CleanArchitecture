@@ -1,9 +1,11 @@
-﻿using CleanArchitecture.Shared;
+﻿using System.Runtime.InteropServices;
+using CleanArchitecture.Core.ActionOptions;
+using CleanArchitecture.Shared;
 
 namespace CleanArchitecture.Core.Interfaces;
 
 /// <summary>
-/// Domain Factory interface. This is implemented in Infrastructure layer.
+/// Domain Factory interface. This is implemented in the Infrastructure layer.
 /// </summary>
 /// <remarks>
 /// Inject this interface in the client code to access its member.
@@ -15,9 +17,10 @@ public interface IDomainFactory<in TRequest, out TResponse>
     where TResponse : EntityBase, IAggregateRoot
 {
     /// <summary>
-    /// Domain factory member in which the aggregate root get created.
+    /// Create domain entity object
     /// </summary>
-    /// <param name="instance"></param>
+    /// <param name="request">The request that is used to create an entity object with</param>
+    /// <param name="action">Optional action to enforce further behaviour or options</param>
     /// <returns>An instance of <typeparamref name="TResponse"/></returns>
-    TResponse? CreateEntityObject(TRequest instance);
+    TResponse? CreateEntityObject(TRequest request, [Optional] Action<DomainFactoryOption> action);
 }

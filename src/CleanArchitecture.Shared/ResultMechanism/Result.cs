@@ -53,7 +53,7 @@ public class Result<T>
     //public bool IsSuccess => Status is ResultStatus.OK;
 
     /// <summary>
-    /// Data property of type <typeparamref name="T"/> which holds the details of the result as a Json field.
+    /// Data property of type <typeparamref name="T"/> which holds the details of the result as a JSON field.
     /// </summary>
     [JsonInclude]
     public T? Data { get; set; }
