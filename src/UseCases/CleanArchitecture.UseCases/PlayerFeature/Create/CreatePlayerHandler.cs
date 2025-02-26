@@ -5,6 +5,7 @@ using CleanArchitecture.Shared.Enums;
 using CleanArchitecture.Shared.Extensions;
 using CleanArchitecture.Shared.ResultMechanism;
 using FluentValidation;
+using Ghanavats.Repository.Abstractions;
 
 namespace CleanArchitecture.UseCases.PlayerFeature.Create;
 
@@ -46,7 +47,7 @@ public class CreatePlayerHandler : ICommandHandler<CreatePlayerCommand, Result<i
         });
 
         if (!validationResult.IsValid) return Result.Invalid(errors);
-
+        
         var player = _domainFactory.CreateEntityObject(request);
         if (player is null)
         {

@@ -5,30 +5,35 @@ using CleanArchitecture.Core.Interfaces;
 using CleanArchitecture.Shared;
 using CleanArchitecture.Shared.Attributes;
 using CleanArchitecture.Shared.Extensions;
+using CleanArchitecture.Shared.StaticMembers;
 
 namespace CleanArchitecture.Infrastructure.Factories;
 
-/// <inheritdoc/>
 internal class CreateEntityObjectFactory<TRequest, TResponse>
-    : IDomainFactory<TRequest, TResponse>
+    : MethodInfoTypeCache, IDomainFactory<TRequest, TResponse>
     where TRequest : class
     where TResponse : EntityBase, IAggregateRoot
 {
+    /// <inheritdoc/>
     public TResponse? CreateEntityObject(TRequest request, Action<DomainFactoryOption>? action)
     {
+        var cacheKey = $"{typeof(TResponse).FullName}.FactoryMethod";
+
         var domainFactoryOption = new DomainFactoryOption();
         if (action is not null)
         {
             domainFactoryOption = new DomainFactoryOption();
             action(domainFactoryOption);
         }
-
-        var method = GetMethod();
+        
+        var method = CachedMethodInfoCollection.TryGetValue(cacheKey, out var result) ? result : GetMethod();
         if (method is null)
         {
             return null;
         }
-
+        
+        CachedMethodInfoCollection[cacheKey] = method;
+        
         var constructorInfo = GetConstructor();
         if (constructorInfo is null)
         {
@@ -50,12 +55,14 @@ internal class CreateEntityObjectFactory<TRequest, TResponse>
 
     private static MethodInfo? GetMethod()
     {
-        var method = typeof(TResponse)
+        var responseType = typeof(TResponse);
+        
+        var method = responseType
             .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
             .FirstOrDefault(x => x.GetCustomAttribute<FactoryMethodAttribute>() is not null
                                  && x.GetCustomAttribute<FactoryMethodAttribute>()?.FactoryMethodName.ToString() ==
                                  typeof(TResponse).Name);
-
+        
         return method ?? null;
     }
 
@@ -81,7 +88,7 @@ internal class CreateEntityObjectFactory<TRequest, TResponse>
         {
             return [];
         }
-        
+
         RemoveIgnoredProperty(ignoredProperties, properties);
 
         var objValues = new object[properties.Count];
@@ -101,8 +108,8 @@ internal class CreateEntityObjectFactory<TRequest, TResponse>
                 new NullReferenceException($"Value of property {propertyName} cannot be null or empty."));
         }
 
-        return additionalProperties.Count <= 0 ? 
-            objValues 
+        return additionalProperties.Count <= 0
+            ? objValues
             : additionalProperties.Aggregate(objValues, (current, item) => current.Append(item.Value).ToArray());
 
         void RemoveIgnoredProperty(IImmutableList<string> ignoredPropertyList, List<PropertyInfo> propertySourceList)

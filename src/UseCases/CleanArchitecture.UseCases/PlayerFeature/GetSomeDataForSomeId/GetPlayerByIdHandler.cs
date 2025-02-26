@@ -1,11 +1,11 @@
-﻿using CleanArchitecture.Core.Interfaces;
-using CleanArchitecture.Core.PlayerAggregate;
+﻿using CleanArchitecture.Core.PlayerAggregate;
 using CleanArchitecture.Shared.Enums;
 using CleanArchitecture.Shared.Extensions;
 using CleanArchitecture.Shared.Query;
 using CleanArchitecture.Shared.ResultMechanism;
 using CleanArchitecture.UseCases.Dtos;
 using FluentValidation;
+using Ghanavats.Repository.Abstractions;
 
 namespace CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 

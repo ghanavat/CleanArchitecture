@@ -10,7 +10,7 @@ namespace CleanArchitecture.Core.Interfaces;
 /// <remarks>
 /// Inject this interface in the client code to access its member.
 /// </remarks>
-/// <typeparam name="TRequest">A mediatr command as IRequest</typeparam>
+/// <typeparam name="TRequest">A mediatr (in this solution) command as IRequest/ICommand, although it does not have to be.</typeparam>
 /// <typeparam name="TResponse">An aggregate root object.</typeparam>
 public interface IDomainFactory<in TRequest, out TResponse>
     where TRequest : class

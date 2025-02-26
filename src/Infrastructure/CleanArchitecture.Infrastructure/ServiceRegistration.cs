@@ -2,6 +2,7 @@
 using CleanArchitecture.Infrastructure.Data;
 using CleanArchitecture.Infrastructure.Factories;
 using CleanArchitecture.Infrastructure.Repositories;
+using Ghanavats.Repository.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;

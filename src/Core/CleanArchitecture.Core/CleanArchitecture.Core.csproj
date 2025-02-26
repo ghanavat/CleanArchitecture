@@ -4,4 +4,8 @@
     <ProjectReference Include="..\..\CleanArchitecture.Shared\CleanArchitecture.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Ghanavats.Repository.Abstractions" />
+  </ItemGroup>
+
 </Project>
