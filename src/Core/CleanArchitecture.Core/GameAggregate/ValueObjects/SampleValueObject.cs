@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Shared;
+﻿using Ghanavats.Domain.Primitives;
 
 namespace CleanArchitecture.Core.GameAggregate.ValueObjects;
 

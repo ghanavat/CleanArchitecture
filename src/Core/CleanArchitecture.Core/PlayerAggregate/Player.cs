@@ -1,9 +1,9 @@
 ﻿using CleanArchitecture.Core.Interfaces;
-using CleanArchitecture.Shared;
 using CleanArchitecture.Shared.Attributes;
 using CleanArchitecture.Shared.Enums;
 using CleanArchitecture.Shared.Extensions;
 using System.Runtime.CompilerServices;
+using Ghanavats.Domain.Primitives;
 
 [assembly: InternalsVisibleTo("UseCases.Tests")]
 

@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Core.Interfaces;
-using CleanArchitecture.Shared;
 using CleanArchitecture.Infrastructure.Data;
+using Ghanavats.Domain.Primitives;
 using Ghanavats.Repository;
 
 namespace CleanArchitecture.Infrastructure.Repositories;

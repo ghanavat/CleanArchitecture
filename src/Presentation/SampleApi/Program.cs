@@ -13,8 +13,8 @@ using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CleanArchitecture.Core.PlayerAggregate;
-using CleanArchitecture.Shared;
 using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
+using Ghanavats.Domain.Primitives.Extensions;
 using SampleApi.CustomOpenApiProcessors;
 
 const string sampleOriginsName = "_sampleOriginsPolicyName";
@@ -73,7 +73,7 @@ ConfigureMediatR();
 builder.Services.AddUseCasesServices();
 builder.Services.AddSqlDb(builder.Configuration.GetSection("SqlServerSettings"), builder.Environment.IsDevelopment());
 builder.Services.AddInfrastructureServices();
-builder.Services.AddSharedServices();
+builder.Services.AddDomainEventPublisher();
 
 /* Authentication is configured as an example to show what it may look like.
  * Here we used AddJwtBearer (package: 'Microsoft.AspNetCore.Authentication.JwtBearer') scheme to validate the token. 

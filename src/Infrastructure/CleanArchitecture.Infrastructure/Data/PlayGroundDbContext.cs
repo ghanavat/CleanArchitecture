@@ -1,9 +1,9 @@
 using System.Reflection;
 using CleanArchitecture.Core.GameAggregate;
 using CleanArchitecture.Core.PlayerAggregate;
-using CleanArchitecture.Shared;
-using CleanArchitecture.Shared.DomainEventMechanism;
 using CleanArchitecture.Shared.Extensions;
+using Ghanavats.Domain.Primitives;
+using Ghanavats.Domain.Primitives.DomainEventMechanism;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Infrastructure.Data;

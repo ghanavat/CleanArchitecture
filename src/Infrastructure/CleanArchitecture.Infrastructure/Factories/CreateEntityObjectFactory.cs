@@ -2,10 +2,10 @@
 using System.Reflection;
 using CleanArchitecture.Core.ActionOptions;
 using CleanArchitecture.Core.Interfaces;
-using CleanArchitecture.Shared;
 using CleanArchitecture.Shared.Attributes;
 using CleanArchitecture.Shared.Extensions;
 using CleanArchitecture.Shared.StaticMembers;
+using Ghanavats.Domain.Primitives;
 
 namespace CleanArchitecture.Infrastructure.Factories;
 

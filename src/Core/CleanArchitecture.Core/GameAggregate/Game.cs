@@ -1,9 +1,9 @@
 using CleanArchitecture.Core.GameAggregate.Events;
 using CleanArchitecture.Core.Interfaces;
-using CleanArchitecture.Shared;
 using CleanArchitecture.Shared.Attributes;
 using CleanArchitecture.Shared.Enums;
 using CleanArchitecture.Shared.Extensions;
+using Ghanavats.Domain.Primitives;
 
 namespace CleanArchitecture.Core.GameAggregate;
 
