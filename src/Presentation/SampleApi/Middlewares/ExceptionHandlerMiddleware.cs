@@ -1,10 +1,10 @@
-﻿using CleanArchitecture.Shared.Enums;
-using CleanArchitecture.Shared.ResultMechanism;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using CleanArchitecture.Shared.Extensions;
+using Ghanavats.ResultPattern;
+using Ghanavats.ResultPattern.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SampleApi.Middlewares;

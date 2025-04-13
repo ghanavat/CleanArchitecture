@@ -1,9 +1,9 @@
 using Asp.Versioning;
 using CleanArchitecture.Shared.Extensions;
-using CleanArchitecture.Shared.ResultMechanism;
 using CleanArchitecture.UseCases.Dtos;
 using CleanArchitecture.UseCases.PlayerFeature.Create;
 using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
+using Ghanavats.ResultPattern;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

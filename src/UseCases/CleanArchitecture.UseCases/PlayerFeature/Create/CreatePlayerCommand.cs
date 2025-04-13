@@ -1,5 +1,5 @@
 ﻿using CleanArchitecture.Shared.Command;
-using CleanArchitecture.Shared.ResultMechanism;
+using Ghanavats.ResultPattern;
 
 namespace CleanArchitecture.UseCases.PlayerFeature.Create;
 

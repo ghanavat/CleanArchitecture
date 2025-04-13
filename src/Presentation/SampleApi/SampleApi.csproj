@@ -23,6 +23,7 @@
 		<PackageReference Include="Asp.Versioning.Http" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+		<PackageReference Include="Ghanavats.ResultPattern" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
@@ -40,7 +41,7 @@
 	</ItemGroup>
 
 	<Target Name="NSwag" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug'">
-		<Exec EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Swagger/nswag.json /variables:Configuration=$(Configuration),DocumentVersion=v2" />
+		<Exec EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Swagger/nswag.json /variables:Configuration=$(Configuration),DocumentVersion=v3" />
 	</Target>
 
 </Project>
