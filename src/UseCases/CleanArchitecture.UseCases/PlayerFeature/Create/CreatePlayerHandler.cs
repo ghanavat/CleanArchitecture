@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Core.Interfaces;
-using CleanArchitecture.Core.PlayerAggregate;
+﻿using CleanArchitecture.Core.PlayerAggregate;
 using CleanArchitecture.Shared.Command;
 using CleanArchitecture.Shared.Extensions;
 using FluentValidation;
+using Ghanavats.Domain.Factory.Abstractions;
 using Ghanavats.Repository.Abstractions;
 using Ghanavats.ResultPattern;
 using Ghanavats.ResultPattern.Enums;
@@ -38,7 +38,7 @@ public class CreatePlayerHandler : ICommandHandler<CreatePlayerCommand, Result<i
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         
-        /* This can be an extension method */
+        /* TODO: This can be an extension method */
         var errors = validationResult.Errors.Select(validationError => new ValidationError
         {
             ErrorCode = validationError.ErrorCode,
@@ -48,13 +48,13 @@ public class CreatePlayerHandler : ICommandHandler<CreatePlayerCommand, Result<i
 
         if (!validationResult.IsValid) return Result.Invalid(errors);
         
-        var player = _domainFactory.CreateEntityObject(request);
-        if (player is null)
+        var domainFactoryResponseModel = _domainFactory.CreateEntityObject(request);
+        if (domainFactoryResponseModel.Value is null)
         {
             return Result<int>.Error($"Something has gone wrong and we were unable to create new object for {nameof(Player)} entity");
         }
         
-        var newPlayerResult = await _repository.AddAsync(player, cancellationToken);
+        var newPlayerResult = await _repository.AddAsync(domainFactoryResponseModel.Value, cancellationToken);
         if (newPlayerResult.Id.Equals(0))
         {
             return Result<int>.Error($"Something has gone wrong and we were unable to persist the data for {nameof(Player)}");

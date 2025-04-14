@@ -1,8 +1,7 @@
 ﻿using CleanArchitecture.Core.Interfaces;
-using CleanArchitecture.Shared.Attributes;
-using CleanArchitecture.Shared.Enums;
 using CleanArchitecture.Shared.Extensions;
 using System.Runtime.CompilerServices;
+using Ghanavats.Domain.Factory.Attributes;
 using Ghanavats.Domain.Primitives;
 
 [assembly: InternalsVisibleTo("UseCases.Tests")]
@@ -16,11 +15,8 @@ namespace CleanArchitecture.Core.PlayerAggregate;
 public class Player : EntityBase, IAggregateRoot
 {
     public string FirstName { get; private set; } = string.Empty;
-    
     public string? LastName { get; private set; }
-
     public bool IsDeleted { get; private set; }
-
     public string? Comment { get; private set; }
 
     public DateOnly DateCreated { get; private set; } = DateOnly.FromDateTime(DateTime.Today);
@@ -69,7 +65,7 @@ public class Player : EntityBase, IAggregateRoot
     /// <summary>
     /// Factory method to create the entire aggregate
     /// </summary>
-    [FactoryMethod(FactoryMethodFor.Player)]
+    [FactoryMethod("Player")]
     internal static Player AddPlayer(string firstName, string lastName, string comment)
     {
         return new Player(firstName, lastName, comment);

@@ -1,8 +1,7 @@
 using CleanArchitecture.Core.GameAggregate.Events;
 using CleanArchitecture.Core.Interfaces;
-using CleanArchitecture.Shared.Attributes;
-using CleanArchitecture.Shared.Enums;
 using CleanArchitecture.Shared.Extensions;
+using Ghanavats.Domain.Factory.Attributes;
 using Ghanavats.Domain.Primitives;
 
 namespace CleanArchitecture.Core.GameAggregate;
@@ -64,7 +63,7 @@ public class Game : EntityBase, IAggregateRoot
     /// <param name="gameName"></param>
     /// <param name="comment"></param>
     /// <returns></returns>
-    [FactoryMethod(FactoryMethodFor.Game)]
+    [FactoryMethod("Game")]
     internal static Game AddNewGame(string playerId, string gameName, string comment)
     {
         var gameInstance = new Game(gameName, comment);

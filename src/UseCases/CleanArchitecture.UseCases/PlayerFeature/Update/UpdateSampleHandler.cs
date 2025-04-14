@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.UseCases.Feature1.Update;
+﻿namespace CleanArchitecture.UseCases.PlayerFeature.Update;
 
 internal class UpdateSampleHandler
 {

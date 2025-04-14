@@ -33,12 +33,12 @@ public class ValidatorBehaviour<TRequest, TResponse>
     /// <exception cref="ValidationException"></exception>
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        if (!_validators.Any()) return await next();
+        if (!_validators.Any()) return await next(cancellationToken);
 
         var context = new ValidationContext<TRequest>(request);
         var validationFailures = await Task.WhenAll(_validators.Select(validator => validator.ValidateAsync(context, cancellationToken)));
 
-        if (validationFailures.Length <= 0) return await next();
+        if (validationFailures.Length <= 0) return await next(cancellationToken);
         
         var errors = validationFailures.Where(x => !x.IsValid)
             .SelectMany(x => x.Errors)
@@ -46,6 +46,6 @@ public class ValidatorBehaviour<TRequest, TResponse>
 
         if (errors.Count > 0) throw new ValidationException(errors);
         
-        return await next();
+        return await next(cancellationToken);
     }
 }

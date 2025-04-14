@@ -33,7 +33,7 @@ public class GetPlayerByIdHandler : IQueryHandler<GetPlayerByIdQuery, Result<Fil
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
-        /* This can be an extension method */
+        /* TODO: This can be an extension method */
         var errors = validationResult.Errors.Select(validationError => new ValidationError
         {
             ErrorCode = validationError.ErrorCode,

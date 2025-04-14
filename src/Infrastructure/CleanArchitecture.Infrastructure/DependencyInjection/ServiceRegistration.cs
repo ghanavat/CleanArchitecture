@@ -1,20 +1,17 @@
-﻿using CleanArchitecture.Core.Interfaces;
-using CleanArchitecture.Infrastructure.Data;
-using CleanArchitecture.Infrastructure.Factories;
+﻿using CleanArchitecture.Infrastructure.Data;
 using CleanArchitecture.Infrastructure.Repositories;
 using Ghanavats.Repository.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
 
-namespace CleanArchitecture.Infrastructure;
+namespace CleanArchitecture.Infrastructure.DependencyInjection;
 
 public static class ServiceRegistration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services) 
     {
         services.AddScoped(typeof(IRepository<>), typeof(MarkerRepository<>));
-        services.AddScoped(typeof(IDomainFactory<,>), typeof(CreateEntityObjectFactory<,>));
         
         return services;
     }
@@ -23,7 +20,7 @@ public static class ServiceRegistration
         IConfigurationSection configurationSection, 
         bool isDevelopment)
     {
-        services.AddDbContextPool<PlayGroundDbContext>((options) =>
+        services.AddDbContextPool<PlayGroundDbContext>(options =>
         {
             options.UseSqlServer(configurationSection["ConnectionString"]);
             
