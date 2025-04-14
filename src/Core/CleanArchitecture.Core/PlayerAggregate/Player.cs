@@ -1,8 +1,8 @@
-﻿using CleanArchitecture.Core.Interfaces;
-using CleanArchitecture.Shared.Extensions;
+﻿using CleanArchitecture.Shared.Extensions;
 using System.Runtime.CompilerServices;
 using Ghanavats.Domain.Factory.Attributes;
 using Ghanavats.Domain.Primitives;
+using Ghanavats.Domain.Primitives.Attributes;
 
 [assembly: InternalsVisibleTo("UseCases.Tests")]
 
@@ -12,7 +12,8 @@ namespace CleanArchitecture.Core.PlayerAggregate;
 /// Player entity.
 /// This is the aggregate root.
 /// </summary>
-public class Player : EntityBase, IAggregateRoot
+[AggregateRoot(nameof(Player))]
+public class Player : EntityBase
 {
     public string FirstName { get; private set; } = string.Empty;
     public string? LastName { get; private set; }

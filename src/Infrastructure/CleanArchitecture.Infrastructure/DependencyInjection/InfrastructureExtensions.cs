@@ -7,9 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitecture.Infrastructure.DependencyInjection;
 
-public static class ServiceRegistration
+public static class InfrastructureExtensions
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services) 
+    public static IServiceCollection AddRepository(this IServiceCollection services) 
     {
         services.AddScoped(typeof(IRepository<>), typeof(MarkerRepository<>));
         

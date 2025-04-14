@@ -1,7 +1,6 @@
 using Asp.Versioning;
 using CleanArchitecture.Infrastructure.Data;
 using CleanArchitecture.Shared.Query;
-using CleanArchitecture.UseCases;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using NSwag;
@@ -13,6 +12,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using CleanArchitecture.Core.PlayerAggregate;
 using CleanArchitecture.Infrastructure.DependencyInjection;
+using CleanArchitecture.UseCases.DependencyInjection;
 using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 using Ghanavats.Domain.Factory.DependencyInjection;
 using Ghanavats.Domain.Primitives.Extensions;
@@ -71,9 +71,9 @@ builder.Services.AddApiVersioning(
 
 ConfigureMediatR();
 
-builder.Services.AddUseCasesServices();
+builder.Services.AddValidations();
 builder.Services.AddSqlDb(builder.Configuration.GetSection("SqlServerSettings"), builder.Environment.IsDevelopment());
-builder.Services.AddInfrastructureServices();
+builder.Services.AddRepository();
 builder.Services.AddDomainEventPublisher();
 builder.Services.AddDomainFactory();
 

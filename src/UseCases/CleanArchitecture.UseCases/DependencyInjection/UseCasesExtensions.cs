@@ -2,12 +2,11 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitecture.UseCases;
+namespace CleanArchitecture.UseCases.DependencyInjection;
 
-#pragma warning disable CS1591
-public static class ServiceRegistration
+public static class UseCasesExtensions
 {
-    public static IServiceCollection AddUseCasesServices(this IServiceCollection services)
+    public static IServiceCollection AddValidations(this IServiceCollection services)
     {
         services.AddValidatorsFromAssemblyContaining<GetSomeDataForSomeIdValidator>();
         return services;

@@ -1,15 +1,16 @@
 using CleanArchitecture.Core.GameAggregate.Events;
-using CleanArchitecture.Core.Interfaces;
 using CleanArchitecture.Shared.Extensions;
 using Ghanavats.Domain.Factory.Attributes;
 using Ghanavats.Domain.Primitives;
+using Ghanavats.Domain.Primitives.Attributes;
 
 namespace CleanArchitecture.Core.GameAggregate;
 
 /// <summary>
 /// Game entity. This entity is internal and its identity referenced by the aggregate root
 /// </summary>
-public class Game : EntityBase, IAggregateRoot
+[AggregateRoot(nameof(Game))]
+public class Game : EntityBase
 {
     public string? PlayerId { get; set; }
 
