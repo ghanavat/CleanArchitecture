@@ -15,7 +15,7 @@ using CleanArchitecture.Infrastructure.DependencyInjection;
 using CleanArchitecture.UseCases.DependencyInjection;
 using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 using Ghanavats.Domain.Factory.DependencyInjection;
-using Ghanavats.Domain.Primitives.Extensions;
+using Ghanavats.Domain.Primitives.DependencyInjection;
 using SampleApi.CustomOpenApiProcessors;
 
 const string sampleOriginsName = "_sampleOriginsPolicyName";

@@ -1,8 +1,8 @@
 <Project>
   <ItemGroup>
     <PackageVersion Include="FluentAssertions" Version="6.12.1" />
-    <PackageVersion Include="Ghanavats.Domain.Factory" Version="1.0.2" />
-    <PackageVersion Include="Ghanavats.Domain.Primitives" Version="1.0.2" />
+    <PackageVersion Include="Ghanavats.Domain.Factory" Version="1.0.4" />
+    <PackageVersion Include="Ghanavats.Domain.Primitives" Version="1.0.3" />
     <PackageVersion Include="Ghanavats.Repository" Version="1.0.2" />
     <PackageVersion Include="Ghanavats.Repository.Abstractions" Version="1.0.1" />
     <PackageVersion Include="Ghanavats.ResultPattern" Version="1.0.0" />
