@@ -7,7 +7,7 @@ using Ghanavats.ResultPattern;
 using Ghanavats.ResultPattern.Enums;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SampleApi.Middlewares;
+namespace CleanArchitecture.Api.Middlewares;
 
 /// <summary>
 /// Exception handling middleware

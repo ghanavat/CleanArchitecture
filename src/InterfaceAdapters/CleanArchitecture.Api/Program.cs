@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using NSwag;
 using NSwag.Generation.AspNetCore;
 using NSwag.Generation.Processors.Security;
-using SampleApi.Middlewares;
+using CleanArchitecture.Api.Middlewares;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -16,7 +16,7 @@ using CleanArchitecture.UseCases.DependencyInjection;
 using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 using Ghanavats.Domain.Factory.DependencyInjection;
 using Ghanavats.Domain.Primitives.DependencyInjection;
-using SampleApi.CustomOpenApiProcessors;
+using CleanArchitecture.Api.CustomOpenApiProcessors;
 
 const string sampleOriginsName = "_sampleOriginsPolicyName";
 

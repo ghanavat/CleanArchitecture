@@ -9,7 +9,7 @@ namespace CleanArchitecture.Infrastructure.Repositories;
 /// Do not use. This is a marker class to allow IRepository to be registered in composition root.
 /// </summary>
 /// <typeparam name="T">An entity to which the repository operations will be implemented for</typeparam>
-public class MarkerRepository<T> : RepositoryBase<T> where T : EntityBase
+internal class MarkerRepository<T> : RepositoryBase<T> where T : EntityBase
 {
     /// <summary>
     /// Runs once - ever - per type T

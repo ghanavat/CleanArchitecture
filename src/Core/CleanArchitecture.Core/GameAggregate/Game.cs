@@ -64,7 +64,7 @@ public class Game : EntityBase
     /// <param name="gameName"></param>
     /// <param name="comment"></param>
     /// <returns></returns>
-    [FactoryMethod("Game")]
+    [FactoryMethod]
     internal static Game AddNewGame(string playerId, string gameName, string comment)
     {
         var gameInstance = new Game(gameName, comment);

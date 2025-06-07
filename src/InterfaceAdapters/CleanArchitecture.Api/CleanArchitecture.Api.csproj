@@ -36,7 +36,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Infrastructure\CleanArchitecture.Infrastructure\CleanArchitecture.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\Framework\CleanArchitecture.Infrastructure\CleanArchitecture.Infrastructure.csproj" />
 		<ProjectReference Include="..\..\UseCases\CleanArchitecture.UseCases\CleanArchitecture.UseCases.csproj" />
 	</ItemGroup>
 

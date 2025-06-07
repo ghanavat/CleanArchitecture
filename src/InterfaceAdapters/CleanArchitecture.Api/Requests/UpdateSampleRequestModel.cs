@@ -1,4 +1,4 @@
-﻿namespace SampleApi.Requests;
+﻿namespace CleanArchitecture.Api.Requests;
 
 /// <summary>
 /// Request Model

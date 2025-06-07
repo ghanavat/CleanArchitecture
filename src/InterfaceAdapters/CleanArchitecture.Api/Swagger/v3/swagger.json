@@ -12,7 +12,7 @@
         "tags": [
           "Player"
         ],
-        "summary": "Create new Player\nPOST is equivalent to CREATE in CRUD.",
+        "summary": "Create a new Player\nPOST is equivalent to CREATE in CRUD.",
         "operationId": "CreateNewPlayerAsync",
         "requestBody": {
           "x-name": "requestModel",

@@ -1,6 +1,6 @@
 ﻿using NJsonSchema.Generation;
 
-namespace SampleApi.CustomOpenApiProcessors;
+namespace CleanArchitecture.Api.CustomOpenApiProcessors;
 
 /// <summary>
 /// Custom Schema Name Generator to apply customised behaviour on how generic type names are generated

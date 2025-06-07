@@ -1,6 +1,6 @@
 ﻿using NJsonSchema;
 
-namespace SampleApi.CustomOpenApiProcessors;
+namespace CleanArchitecture.Api.CustomOpenApiProcessors;
 
 /// <summary>
 /// Custom Type Name Generator to apply customised behaviour on type names

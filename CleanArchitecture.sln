@@ -18,9 +18,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1DE3EF0C-7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Core", "src\Core\CleanArchitecture.Core\CleanArchitecture.Core.csproj", "{6C8420CB-846A-41F5-9299-B599D9845EE2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{B2405AE3-AB23-48CF-AB02-0B7C17DFB917}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{B2405AE3-AB23-48CF-AB02-0B7C17DFB917}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Infrastructure", "src\Infrastructure\CleanArchitecture.Infrastructure\CleanArchitecture.Infrastructure.csproj", "{F4B9BBC9-170A-4E0A-82EF-CEFD4EA21D94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Infrastructure", "src\Framework\CleanArchitecture.Infrastructure\CleanArchitecture.Infrastructure.csproj", "{F4B9BBC9-170A-4E0A-82EF-CEFD4EA21D94}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UseCases", "UseCases", "{A277AFB1-B9FE-462A-98A8-E7ADC738CF25}"
 EndProject
@@ -28,11 +28,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.UseCases"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Shared", "src\CleanArchitecture.Shared\CleanArchitecture.Shared.csproj", "{A105A473-0EC3-49B3-A318-85348B10A10B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{1C4715BB-074F-4FB3-9B91-7226EEF0E101}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InterfaceAdapters", "InterfaceAdapters", "{1C4715BB-074F-4FB3-9B91-7226EEF0E101}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleApi", "src\Presentation\SampleApi\SampleApi.csproj", "{F4B23BD3-20A1-46D2-A7A3-977F0A14FC1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Api", "src\InterfaceAdapters\CleanArchitecture.Api\CleanArchitecture.Api.csproj", "{F4B23BD3-20A1-46D2-A7A3-977F0A14FC1F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleApi.Tests", "tests\SampleApi.Tests\SampleApi.Tests.csproj", "{D2A9E79C-CDA7-43C7-B143-B245866136FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitecture.Api.Tests", "tests\CleanArchitecture.Api.Tests\CleanArchitecture.Api.Tests.csproj", "{D2A9E79C-CDA7-43C7-B143-B245866136FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UseCases.Tests", "tests\UseCases.Tests\UseCases.Tests.csproj", "{7B83C01C-AEC3-49C9-B9E1-08D6D7A9E804}"
 EndProject

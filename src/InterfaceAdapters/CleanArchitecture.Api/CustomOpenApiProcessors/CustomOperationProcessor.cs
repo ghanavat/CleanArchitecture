@@ -1,7 +1,7 @@
 ﻿using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 
-namespace SampleApi.CustomOpenApiProcessors;
+namespace CleanArchitecture.Api.CustomOpenApiProcessors;
 
 /// <summary>
 /// Custom operation processor

@@ -16,9 +16,4 @@
         </PackageReference>
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\..\src\Infrastructure\CleanArchitecture.Infrastructure\CleanArchitecture.Infrastructure.csproj" />
-      <ProjectReference Include="..\..\src\Presentation\SampleApi\SampleApi.csproj" />
-    </ItemGroup>
-
 </Project>

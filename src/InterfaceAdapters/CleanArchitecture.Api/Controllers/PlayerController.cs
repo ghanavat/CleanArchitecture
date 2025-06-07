@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using CleanArchitecture.Api.Requests;
 using CleanArchitecture.Shared.Extensions;
 using CleanArchitecture.UseCases.Dtos;
 using CleanArchitecture.UseCases.PlayerFeature.Create;
@@ -7,9 +8,8 @@ using Ghanavats.ResultPattern;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SampleApi.Requests;
 
-namespace SampleApi.Controllers;
+namespace CleanArchitecture.Api.Controllers;
 
 /// <summary>
 /// Sample Controller for the Clean Architecture proposal
@@ -34,7 +34,7 @@ public class PlayerController : ControllerBase
 
     /// <summary>
     /// Get Player by ID
-    /// <remarks>It has 'Authorize' attribute and API Versioning.</remarks>
+    /// <remarks>It has the 'Authorize' attribute and API Versioning.</remarks>
     /// </summary>
     /// <returns>OK or BadRequest</returns>
     [HttpGet("{playerId:int}")]
@@ -47,7 +47,7 @@ public class PlayerController : ControllerBase
     }
 
     /// <summary>
-    /// Create new Player
+    /// Create a new Player
     /// <remarks>POST is equivalent to CREATE in CRUD.</remarks>
     /// </summary>
     /// <returns>The value of the primary key</returns>
@@ -56,12 +56,14 @@ public class PlayerController : ControllerBase
     [MapToApiVersion("3.0")]
     public Task<Result<int>> CreateNewPlayerAsync([FromBody] CreatePlayerRequestModel requestModel)
     {
-        var command = new CreatePlayerCommand(requestModel.FirstName, requestModel.Lastname, requestModel.Comment);
+        var command = new CreatePlayerCommand(requestModel.FirstName, requestModel.Lastname, 
+            requestModel.Comment);
+        
         return _mediator.Send(command);
     }
 
     /// <summary>
-    /// A sample endpoint wth PUT.
+    /// A sample endpoint with PUT.
     /// PUT is used for both creating and updating, but primarily it does UPDATE in CRUD.
     /// When the reference to the resource exists, UPDATE operations happen, otherwise CREATE.
     /// </summary>
