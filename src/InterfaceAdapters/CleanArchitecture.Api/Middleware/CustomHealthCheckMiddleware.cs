@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace CleanArchitecture.Api.Middlewares;
+namespace CleanArchitecture.Api.Middleware;
 
 /// <summary>
 /// Custom health check middleware

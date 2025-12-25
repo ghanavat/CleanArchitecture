@@ -8,7 +8,6 @@
   <ItemGroup>
     <PackageReference Include="Ghanavats.Repository" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
   </ItemGroup>
 
   <ItemGroup>

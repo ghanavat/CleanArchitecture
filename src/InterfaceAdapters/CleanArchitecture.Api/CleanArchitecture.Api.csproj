@@ -1,13 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-	<PropertyGroup>
-		<ApiDocsFolder>ApiDocumentations/V1</ApiDocsFolder>
-	</PropertyGroup>
-
 	<ItemGroup>
 		<Compile Remove="Extensions\**" />
 		<Compile Remove="Handlers\**" />
 		<Compile Remove="Validations\**" />
+		<Compile Include="Extensions\EndpointGroups.cs" />
 		<Content Remove="Extensions\**" />
 		<Content Remove="Handlers\**" />
 		<Content Remove="Validations\**" />
@@ -23,25 +20,13 @@
 		<PackageReference Include="Asp.Versioning.Http" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
-		<PackageReference Include="Ghanavats.ResultPattern" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
-		<PackageReference Include="NSwag.AspNetCore" />
-		<PackageReference Include="NSwag.Generation.WebApi" />
-		<PackageReference Include="NSwag.MSBuild">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Framework\CleanArchitecture.Infrastructure\CleanArchitecture.Infrastructure.csproj" />
 		<ProjectReference Include="..\..\UseCases\CleanArchitecture.UseCases\CleanArchitecture.UseCases.csproj" />
 	</ItemGroup>
-
-	<Target Name="NSwag" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug'">
-		<Exec EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Swagger/nswag.json /variables:Configuration=$(Configuration),DocumentVersion=v3" />
-	</Target>
 
 </Project>

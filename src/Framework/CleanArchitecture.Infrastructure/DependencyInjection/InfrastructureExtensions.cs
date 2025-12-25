@@ -9,28 +9,30 @@ namespace CleanArchitecture.Infrastructure.DependencyInjection;
 
 public static class InfrastructureExtensions
 {
-    public static IServiceCollection AddRepository(this IServiceCollection services) 
+    extension(IServiceCollection services)
     {
-        services.AddScoped(typeof(IRepository<>), typeof(MarkerRepository<>));
-        
-        return services;
-    }
-    
-    public static IServiceCollection AddSqlDb(this IServiceCollection services, 
-        IConfigurationSection configurationSection, 
-        bool isDevelopment)
-    {
-        services.AddDbContextPool<PlayGroundDbContext>(options =>
+        public IServiceCollection AddRepository() 
         {
-            options.UseSqlServer(configurationSection["ConnectionString"]);
-            
-            if (isDevelopment)
-            {
-                options.EnableDetailedErrors()
-                    .EnableSensitiveDataLogging();
-            }
-        });
+            services.AddScoped(typeof(IRepository<>), typeof(MarkerRepository<>));
+        
+            return services;
+        }
 
-        return services;
+        public IServiceCollection AddSqlDb(IConfigurationSection configurationSection, 
+            bool isDevelopment)
+        {
+            services.AddDbContextPool<PlayGroundDbContext>(options =>
+            {
+                options.UseSqlServer(configurationSection["ConnectionString"]);
+            
+                if (isDevelopment)
+                {
+                    options.EnableDetailedErrors()
+                        .EnableSensitiveDataLogging();
+                }
+            });
+
+            return services;
+        }
     }
 }

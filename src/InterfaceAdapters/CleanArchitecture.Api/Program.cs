@@ -3,29 +3,29 @@ using CleanArchitecture.Infrastructure.Data;
 using CleanArchitecture.Shared.Query;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using NSwag;
-using NSwag.Generation.AspNetCore;
-using NSwag.Generation.Processors.Security;
-using CleanArchitecture.Api.Middlewares;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using CleanArchitecture.Api.Endpoints;
+using CleanArchitecture.Api.Extensions;
 using CleanArchitecture.Core.PlayerAggregate;
 using CleanArchitecture.Infrastructure.DependencyInjection;
 using CleanArchitecture.UseCases.DependencyInjection;
 using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 using Ghanavats.Domain.Factory.DependencyInjection;
 using Ghanavats.Domain.Primitives.DependencyInjection;
-using CleanArchitecture.Api.CustomOpenApiProcessors;
+using CleanArchitecture.Api.Middleware;
 
 const string sampleOriginsName = "_sampleOriginsPolicyName";
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers()
-    .AddJsonOptions(opt => ConfigureJsonSerializers(opt.JsonSerializerOptions));
-
-builder.Services.ConfigureHttpJsonOptions(opt => ConfigureJsonSerializers(opt.SerializerOptions));
+builder.Services.ConfigureHttpJsonOptions(jsonOptions =>
+{
+    jsonOptions.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.KebabCaseLower;
+    jsonOptions.SerializerOptions.WriteIndented = true;
+    jsonOptions.SerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.KebabCaseLower, false));
+});
 
 builder.Services.AddCors(corsOptions =>
 {
@@ -54,6 +54,8 @@ builder.Services.AddHealthChecks().AddCheck<CustomHealthCheckMiddleware>("Name_F
 
 builder.Services.AddExceptionHandler<ExceptionHandlerMiddleware>();
 builder.Services.AddProblemDetails();
+
+builder.Services.AddOpenApi();
 
 builder.Services.AddApiVersioning(
     options =>
@@ -112,63 +114,7 @@ builder.Services.AddAuthorizationBuilder()
         policy.RequireAuthenticatedUser();
     });
 
-builder.Services
-    .AddOpenApiDocument(settings =>
-    {
-        CommonApiDocumentGeneratorSettings(settings, "v1");
-
-        settings.PostProcess = document =>
-        {
-            document.Info = ConfigureOpenApiInfo(settings.DocumentName);
-        };
-
-        settings.SchemaSettings.SchemaNameGenerator = new CustomSchemaNameGenerator();
-        settings.SchemaSettings.TypeNameGenerator = new CustomTypeNameGenerator();
-
-        settings.OperationProcessors.Add(new CustomOperationProcessor());
-    })
-    .AddOpenApiDocument(settings =>
-    {
-        CommonApiDocumentGeneratorSettings(settings, "v2");
-   
-        settings.PostProcess = document =>
-        {
-            document.Info = ConfigureOpenApiInfo(settings.DocumentName);            
-        };
-
-        settings.AddSecurity("SecuritySchemeName", new OpenApiSecurityScheme
-        {
-            Type = OpenApiSecuritySchemeType.Http,
-
-            /* Require installing package: 'Microsoft.AspNetCore.Authentication.JwtBearer' */
-            Scheme = JwtBearerDefaults.AuthenticationScheme,
-            BearerFormat = "JWT",
-            Name = "Authorization",
-            Description = "Place your valid JWT Bearer Token into the below Value box."
-        });
-
-        settings.SchemaSettings.SchemaNameGenerator = new CustomSchemaNameGenerator();
-        settings.SchemaSettings.TypeNameGenerator = new CustomTypeNameGenerator();
-
-        settings.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Bearer"));
-        settings.OperationProcessors.Add(new CustomOperationProcessor());
-    })
-    .AddOpenApiDocument(settings =>
-    {
-        CommonApiDocumentGeneratorSettings(settings, "v3");
-
-        settings.PostProcess = document =>
-        {
-            document.Info = ConfigureOpenApiInfo(settings.DocumentName);
-        };
-
-        settings.SchemaSettings.SchemaNameGenerator = new CustomSchemaNameGenerator();
-        settings.SchemaSettings.TypeNameGenerator = new CustomTypeNameGenerator();
-
-        settings.OperationProcessors.Add(new CustomOperationProcessor());
-    });
-
-builder.Services.AddRouting((options) =>
+builder.Services.AddRouting(options =>
 {
     options.LowercaseUrls = true;
 });
@@ -189,8 +135,7 @@ app.UseHsts();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseOpenApi();
-    app.UseSwaggerUi();
+    app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
@@ -201,17 +146,10 @@ app.UseExceptionHandler();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+UseMinimalEndpoints();
 
-app.Run();
+await app.RunAsync();
 return;
-
-void ConfigureJsonSerializers(JsonSerializerOptions options)
-{
-    options.PropertyNamingPolicy = JsonNamingPolicy.KebabCaseLower;
-    options.WriteIndented = true;
-    options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.KebabCaseLower, false));
-}
 
 void ConfigureMediatR()
 {
@@ -230,21 +168,8 @@ void ConfigureMediatR()
     });
 }
 
-OpenApiInfo ConfigureOpenApiInfo(string apiVersion)
+void UseMinimalEndpoints()
 {
-    return new OpenApiInfo
-    {
-        Version = apiVersion,
-        Title = "Clean Architecture template",
-        Description = "A template based on Clean Architecture rules. This template aims to show/help developers with setting up a solution based on Clean Architecture rules and guidelines."
-    };
-}
-
-void CommonApiDocumentGeneratorSettings(AspNetCoreOpenApiDocumentGeneratorSettings settings, string version)
-{
-    settings.DocumentName = version;
-    settings.ApiGroupNames = [version];
-    settings.UseHttpAttributeNameAsOperationId = false;
-    settings.UseControllerSummaryAsTagDescription = true;
-    settings.DefaultResponseReferenceTypeNullHandling = NJsonSchema.Generation.ReferenceTypeNullHandling.Null;
+    app.Players();
+    PlayersEndpoints.Map(app);
 }

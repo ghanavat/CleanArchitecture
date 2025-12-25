@@ -24,6 +24,7 @@ internal class MarkerRepository<T> : RepositoryBase<T> where T : EntityBase
                 $"The type {typeof(T).Name} must be marked with [AggregateRoot] to be used in this repository.");
         }
     }
+    
     public MarkerRepository(PlayGroundDbContext efContext) 
         : base(efContext)
     { }
