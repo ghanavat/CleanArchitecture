@@ -5,6 +5,7 @@ using CleanArchitecture.UseCases.Dtos;
 using FluentValidation;
 using Ghanavats.Repository.Abstractions;
 using Ghanavats.ResultPattern;
+using Ghanavats.ResultPattern.Aggregate;
 using Ghanavats.ResultPattern.Enums;
 
 namespace CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
@@ -29,30 +30,22 @@ public class GetPlayerByIdHandler : IQueryHandler<GetPlayerByIdQuery, Result<Fil
     }
 
     /// <inheritdoc/>
-    public async Task<Result<FilteredPlayerDto>> Handle(GetPlayerByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<FilteredPlayerDto>> Handle(GetPlayerByIdQuery request, 
+        CancellationToken cancellationToken)
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-
-        /* TODO: This can be an extension method */
-        var errors = validationResult.Errors.Select(validationError => new ValidationError
-        {
-            ErrorCode = validationError.ErrorCode,
-            ErrorMessage = validationError.ErrorMessage,
-            ValidationErrorType = (ValidationErrorType)validationError.Severity
-        });
-
         if (!validationResult.IsValid)
         {
-            return Result.Invalid(errors);
+            var invalidResult = Result.Invalid(validationResult);
+            return invalidResult;
         }
 
         var result = await _repository.GetByIdAsync(request.PlayerId, cancellationToken);
-
-        if (result == null)
+        if (result is null)
         {
-            return Result<FilteredPlayerDto>.Error("Sample error message.");
+            return Result.NotFound();
         }
-
+        
         return new FilteredPlayerDto
         {
             Id = result.Id,

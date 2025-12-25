@@ -14,7 +14,7 @@ public static class PlayersEndpoints
     {
         app.Players().MapGet("/{playerId:int}", async ([FromRoute] int playerId, IMediator mediator) =>
         {
-            var query = new GetPlayerByIdQuery(playerId, string.Empty);
+            var query = new GetPlayerByIdQuery(playerId);
             var result = await mediator.Send(query);
 
             var mapResult = await result.ToResultAsync();
