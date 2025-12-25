@@ -19,7 +19,7 @@ public static class PlayersEndpoints
 
             var mapResult = await result.ToResultAsync();
             return mapResult;
-        });
+        }).WithName("GetPlayerById").WithDescription("Gets a player from the specified id");
         
         app.Players().MapPost("/new", async ([FromBody] CreatePlayerRequestModel requestModel, IMediator mediator) =>
         {
@@ -28,6 +28,6 @@ public static class PlayersEndpoints
 
             var result = await mediator.Send(command);
             return result.ToResultAsync();
-        });
+        }).WithName("CreatePlayer").WithDescription("Creates a new player");
     }
 }

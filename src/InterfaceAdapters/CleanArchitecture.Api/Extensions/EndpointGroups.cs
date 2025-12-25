@@ -7,7 +7,7 @@ public static class EndpointGroups
         public RouteGroupBuilder Players()
         {
             return app.MapGroup("/players")
-                .RequireAuthorization();
+                .AllowAnonymous().WithTags("Players");
         }
     }
 }
