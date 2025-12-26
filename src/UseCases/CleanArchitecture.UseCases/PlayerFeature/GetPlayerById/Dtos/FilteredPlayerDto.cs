@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.UseCases.Dtos;
+﻿namespace CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId.Dtos;
 
 public class FilteredPlayerDto
 {

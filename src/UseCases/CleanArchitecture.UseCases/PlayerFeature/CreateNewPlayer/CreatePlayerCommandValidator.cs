@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace CleanArchitecture.UseCases.PlayerFeature.Create;
+namespace CleanArchitecture.UseCases.PlayerFeature.CreateNewPlayer;
 
 /// <summary>
 /// Create Player command validator

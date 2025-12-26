@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
+﻿using CleanArchitecture.UseCases.PlayerFeature.GetPlayerById;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 

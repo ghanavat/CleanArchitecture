@@ -1,7 +1,7 @@
 using CleanArchitecture.Api.Extensions;
 using CleanArchitecture.Api.Requests;
-using CleanArchitecture.UseCases.PlayerFeature.Create;
-using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
+using CleanArchitecture.UseCases.PlayerFeature.CreateNewPlayer;
+using CleanArchitecture.UseCases.PlayerFeature.GetPlayerById;
 using Ghanavats.ResultPattern.Mapping;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,14 +20,15 @@ public static class PlayersEndpoints
             var mapResult = await result.ToResultAsync();
             return mapResult;
         }).WithName("GetPlayerById").WithDescription("Gets a player from the specified id");
-        
+
         app.Players().MapPost("/new", async ([FromBody] CreatePlayerRequestModel requestModel, IMediator mediator) =>
         {
-            var command = new CreatePlayerCommand(requestModel.FirstName, requestModel.Lastname,
-                requestModel.Comment);
+            var command = new CreatePlayerCommand(requestModel.FirstName, 
+                requestModel.LastName, requestModel.Comment);
 
             var result = await mediator.Send(command);
-            return result.ToResultAsync();
+            var mapResult = await result.ToResultAsync();
+            return mapResult;
         }).WithName("CreatePlayer").WithDescription("Creates a new player");
     }
 }

@@ -11,10 +11,10 @@ using CleanArchitecture.Api.Extensions;
 using CleanArchitecture.Core.PlayerAggregate;
 using CleanArchitecture.Infrastructure.DependencyInjection;
 using CleanArchitecture.UseCases.DependencyInjection;
-using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
 using Ghanavats.Domain.Factory.DependencyInjection;
 using Ghanavats.Domain.Primitives.DependencyInjection;
 using CleanArchitecture.Api.Middleware;
+using CleanArchitecture.UseCases.PlayerFeature.GetPlayerById;
 
 const string sampleOriginsName = "_sampleOriginsPolicyName";
 

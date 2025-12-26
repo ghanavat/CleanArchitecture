@@ -5,9 +5,8 @@ using FluentValidation;
 using Ghanavats.Domain.Factory.Abstractions;
 using Ghanavats.Repository.Abstractions;
 using Ghanavats.ResultPattern;
-using Ghanavats.ResultPattern.Enums;
 
-namespace CleanArchitecture.UseCases.PlayerFeature.Create;
+namespace CleanArchitecture.UseCases.PlayerFeature.CreateNewPlayer;
 
 /// <summary>
 /// Create Player handler implementation
@@ -37,16 +36,10 @@ public class CreatePlayerHandler : ICommandHandler<CreatePlayerCommand, Result<i
     public async Task<Result<int>> Handle(CreatePlayerCommand request, CancellationToken cancellationToken)
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-        
-        /* TODO: This can be an extension method */
-        var errors = validationResult.Errors.Select(validationError => new ValidationError
+        if (!validationResult.IsValid)
         {
-            ErrorCode = validationError.ErrorCode,
-            ErrorMessage = validationError.ErrorMessage,
-            ValidationErrorType = (ValidationErrorType)validationError.Severity
-        });
-
-        if (!validationResult.IsValid) return Result.Invalid(errors);
+            return Result.Invalid(validationResult);
+        }
         
         var domainFactoryResponseModel = _domainFactory.CreateEntityObject(request);
         if (domainFactoryResponseModel.Value is null)

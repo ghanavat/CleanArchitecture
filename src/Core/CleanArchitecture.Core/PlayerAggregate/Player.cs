@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Shared.Extensions;
 using System.Runtime.CompilerServices;
+using CleanArchitecture.Core.PlayerAggregate.Events;
 using Ghanavats.Domain.Factory.Attributes;
 using Ghanavats.Domain.Primitives;
 using Ghanavats.Domain.Primitives.Attributes;
@@ -16,10 +17,9 @@ namespace CleanArchitecture.Core.PlayerAggregate;
 public class Player : EntityBase
 {
     public string FirstName { get; private set; } = string.Empty;
-    public string? LastName { get; private set; }
+    public string LastName { get; private set; } = string.Empty;
     public bool IsDeleted { get; private set; }
     public string? Comment { get; private set; }
-
     public DateOnly DateCreated { get; private set; } = DateOnly.FromDateTime(DateTime.Today);
     
     /// <summary>
@@ -27,27 +27,6 @@ public class Player : EntityBase
     /// </summary>
     public Player()
     {
-    }
-
-    /// <summary>
-    /// Update player details
-    /// </summary>
-    /// <param name="firstName">firstName of the player</param>
-    /// <param name="lastName">lastName of the player</param>
-    /// <param name="comment"></param>
-    public void UpdatePlayerDetails(string firstName, string lastName, string comment)
-    {
-        FirstName = firstName.CheckForNull();
-        LastName = lastName.CheckForNull();
-        Comment = comment;
-    }
-
-    /// <summary>
-    /// Softly deletes a game
-    /// </summary>
-    public void SoftDeletePlayer()
-    {
-        IsDeleted = true;
     }
 
     /// <summary>
@@ -69,6 +48,35 @@ public class Player : EntityBase
     [FactoryMethod("Player")]
     internal static Player AddPlayer(string firstName, string lastName, string comment)
     {
-        return new Player(firstName, lastName, comment);
+        var player = new Player(firstName, lastName, comment);
+        
+        var newPlayerCreatedEvent  = new NewPlayerCreatedEvent(player);
+        player.AddDomainEvent(newPlayerCreatedEvent);
+        
+        return player;
+    }
+
+    /// <summary>
+    /// Update player details
+    /// </summary>
+    /// <param name="firstName">firstName of the player</param>
+    /// <param name="lastName">lastName of the player</param>
+    /// <param name="comment"></param>
+    public void UpdatePlayerDetails(string firstName, string lastName, string comment)
+    {
+        FirstName = firstName.CheckForNull();
+        LastName = lastName.CheckForNull();
+        Comment = comment;
+    }
+
+    /// <summary>
+    /// Softly deletes a game
+    /// </summary>
+    public void SoftDeletePlayer()
+    {
+        IsDeleted = true;
+        
+        var playerSoftDeletedEvent = new PlayerSoftDeletedEvent(Id);
+        AddDomainEvent(playerSoftDeletedEvent);
     }
 }

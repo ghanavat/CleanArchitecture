@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CleanArchitecture.Shared\CleanArchitecture.Shared.csproj" />
     <ProjectReference Include="..\..\Core\CleanArchitecture.Core\CleanArchitecture.Core.csproj" />
   </ItemGroup>
 

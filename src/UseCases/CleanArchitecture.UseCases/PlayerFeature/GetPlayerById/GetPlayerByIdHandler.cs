@@ -1,14 +1,12 @@
 ﻿using CleanArchitecture.Core.PlayerAggregate;
 using CleanArchitecture.Shared.Extensions;
 using CleanArchitecture.Shared.Query;
-using CleanArchitecture.UseCases.Dtos;
+using CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId.Dtos;
 using FluentValidation;
 using Ghanavats.Repository.Abstractions;
 using Ghanavats.ResultPattern;
-using Ghanavats.ResultPattern.Aggregate;
-using Ghanavats.ResultPattern.Enums;
 
-namespace CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
+namespace CleanArchitecture.UseCases.PlayerFeature.GetPlayerById;
 
 /// <summary>
 /// Get Player by ID handler

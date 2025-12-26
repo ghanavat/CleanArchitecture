@@ -1,5 +1,4 @@
 using CleanArchitecture.Core.GameAggregate.Events;
-using CleanArchitecture.Shared.Extensions;
 using Ghanavats.Domain.Factory.Attributes;
 using Ghanavats.Domain.Primitives;
 using Ghanavats.Domain.Primitives.Attributes;
@@ -12,13 +11,13 @@ namespace CleanArchitecture.Core.GameAggregate;
 [AggregateRoot(nameof(Game))]
 public class Game : EntityBase
 {
-    public string? PlayerId { get; set; }
+    public int? PlayerId { get; set; }
 
-    public string? Name { get; set; }
+    public string? Name { get; init; }
 
     public bool IsDeleted { get; set; }
 
-    public string? Comment { get; set; }
+    public string? Comment { get; init; }
 
     public DateOnly DateCreated { get; private set; } = DateOnly.FromDateTime(DateTime.Today);
 
@@ -32,29 +31,14 @@ public class Game : EntityBase
     /// <summary>
     /// Private constructor used only by the factory method
     /// </summary>
+    /// <param name="playerId"></param>
     /// <param name="name"></param>
     /// <param name="comment"></param>
-    private Game(string name, string comment)
+    private Game(int playerId, string name, string comment)
     {
         Name = name;
         Comment = comment;
-    }
-
-    /// <summary>
-    /// Remove player from the game object
-    /// </summary>
-    /// <param name="playerId">Player id that is going to be removed</param>
-    public void RemovePlayer(string playerId)
-    {
-        PlayerId = null;
-    }
-
-    /// <summary>
-    /// Softly deletes a game
-    /// </summary>
-    public void SoftDeleteGame()
-    {
-        IsDeleted = true;
+        PlayerId = playerId;
     }
 
     /// <summary>
@@ -63,26 +47,38 @@ public class Game : EntityBase
     /// <param name="playerId"></param>
     /// <param name="gameName"></param>
     /// <param name="comment"></param>
-    /// <returns></returns>
+    /// <returns>Fully populated Game object</returns>
     [FactoryMethod]
-    internal static Game AddNewGame(string playerId, string gameName, string comment)
+    internal static Game AddNewGame(int playerId, string gameName, string comment)
     {
-        var gameInstance = new Game(gameName, comment);
-        gameInstance.AddPlayer(playerId);
-
+        var gameInstance = new Game(playerId, gameName, comment);
+        
+        var newGameEvent = new NewGameCreatedEvent(gameInstance);
+        gameInstance.AddDomainEvent(newGameEvent);
+        
         return gameInstance;
     }
-    
+
     /// <summary>
-    /// Add a new player to the game object
+    /// Removes player from the game object
     /// </summary>
-    /// <param name="playerId">Player id that is going to be added</param>
-    /// <returns>Void</returns>
-    private void AddPlayer(string playerId)
+    /// <param name="playerId">Player id that is going to be removed</param>
+    public void RemovePlayer(int playerId)
     {
-        PlayerId = playerId.CheckForNull();
+        PlayerId = null;
         
-        var newPlayerEvent = new NewPlayerAddedToGameEvent(this, playerId);
-        AddDomainEvent(newPlayerEvent);
+        var playerRemovedFromGameEvent = new PlayerRemovedFromGameEvent(playerId, Id);
+        AddDomainEvent(playerRemovedFromGameEvent);
+    }
+
+    /// <summary>
+    /// Softly deletes a game
+    /// </summary>
+    public void SoftDeleteGame()
+    {
+        IsDeleted = true;
+        
+        var gameSoftDeleteEvent = new GameSoftDeletedEvent(Id);
+        AddDomainEvent(gameSoftDeleteEvent);
     }
 }

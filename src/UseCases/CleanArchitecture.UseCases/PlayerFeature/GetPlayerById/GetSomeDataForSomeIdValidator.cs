@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace CleanArchitecture.UseCases.PlayerFeature.GetSomeDataForSomeId;
+namespace CleanArchitecture.UseCases.PlayerFeature.GetPlayerById;
 
 /// <summary>
 /// Query validator
