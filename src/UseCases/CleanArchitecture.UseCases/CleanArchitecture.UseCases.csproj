@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="Ghanavats.Repository.Abstractions" />
     <PackageReference Include="Ghanavats.ResultPattern" />
   </ItemGroup>
 

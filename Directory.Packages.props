@@ -3,7 +3,6 @@
     <PackageVersion Include="Ghanavats.Domain.Factory" Version="1.0.5" />
     <PackageVersion Include="Ghanavats.Domain.Primitives" Version="1.0.3" />
     <PackageVersion Include="Ghanavats.Repository" Version="1.1.2" />
-    <PackageVersion Include="Ghanavats.Repository.Abstractions" Version="1.1.1" />
     <PackageVersion Include="Ghanavats.ResultPattern" Version="2.0.1" />
     <PackageVersion Include="MediatR" Version="14.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.3.0" />
