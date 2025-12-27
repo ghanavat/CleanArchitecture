@@ -1,6 +1,7 @@
 using CleanArchitecture.Api.Extensions;
 using CleanArchitecture.Api.Requests;
 using CleanArchitecture.UseCases.PlayerFeature.CreateNewPlayer;
+using CleanArchitecture.UseCases.PlayerFeature.DeletePlayer;
 using CleanArchitecture.UseCases.PlayerFeature.GetPlayerById;
 using Ghanavats.ResultPattern.Mapping;
 using MediatR;
@@ -30,5 +31,14 @@ public static class PlayersEndpoints
             var mapResult = await result.ToResultAsync();
             return mapResult;
         }).WithName("CreatePlayer").WithDescription("Creates a new player");
+        
+        app.Players().MapPut("/{playerId:int}/delete", async ([FromRoute] int playerId, IMediator mediator) =>
+        {
+            var command = new DeletePlayerByIdCommand(playerId);
+
+            var result = await mediator.Send(command);
+            var mapResult = await result.ToResultAsync();
+            return mapResult;
+        }).WithName("DeletePlayer").WithDescription("Deletes a player from the specified id");
     }
 }
