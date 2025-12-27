@@ -38,14 +38,6 @@ public class PlayGroundDbContext : DbContext
             entity.Property(x => x.IsDeleted)
                 .IsRequired()
                 .HasDefaultValue(false);
-            
-            // entity.Property(p => p.Id).HasConversion(new CustomIdentityConverter());
-            // entity.Property(p => p.Id).HasBsonRepresentation(BsonType.ObjectId); // The above line is not needed. But test it first.
-            //
-            // entity.Property(p => p.FirstName).HasElementName("firstName");
-            // entity.Property(p => p.LastName).HasElementName("lastName");
-            //
-            // entity.ToCollection("Players");
         });
         
         modelBuilder.Entity<Game>(entity =>
